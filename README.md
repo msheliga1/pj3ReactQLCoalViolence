@@ -16,7 +16,7 @@ Link to Netlify Deployment: https://xxxxxxxxxxxxxx.netlify.app
 [Link to Acceptance Criteria ](#acceptance-criteria)   
 
 ## Project Goals     
-Modify a book search app from REST to GraphQL using MERN-reach and web token security.     
+Modify a book search app from REST to GraphQL using MERN-react and web token security.     
 
 ========================================================   
 ## Technical Project Details    
@@ -183,7 +183,6 @@ Complete the following in these back-end files:
 Create front-end files:
 
     queries.js: Will hold the query GET_ME, which will exec the me query setup using Apollo Server.
-
     mutations.js:
         LOGIN_USER will execute the loginUser mutation set up using Apollo Server.
         ADD_USER will execute the addUser mutation.
