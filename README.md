@@ -116,19 +116,25 @@ Modify a book search app from REST to GraphQL using MERN-reach and web token sec
 
 ## Acceptance Criteria   
 -----------------------       
-DESIRE: single-page application portfolio for a web developer.
-        About Me, Portfolio, Contact, and Resume. 
-Load portfolio => presented with a page containing a header, a section for content, and a footer
-View the header => shown developer's name and titles About Me, Portfolio, Contact, and Resume. 
-    Title of current section is highlighted
-Click on nav title => corresponding section below the navigation without the page reloading and that title is highlighted
-Load the portfolio the first time => About Me title and section are selected by default
-About Me section => see a recent photo or avatar of the developer and a short bio about them
-Portfolio section => titled images of six applications with links to both the deployed apps and the corresponding GitHub repo
-Contact section => contact form with fields for a name, an email address, and a message
-    cursor moved out of one of the form fields without entering text
-    receive a notification that this field is required
-WHEN I enter text into the email address field
-    get notification if I have entered an invalid email address
-Resume section - link to a downloadable resume and a list of the developer’s proficiencies
-Footer: has text or icon links to the developer’s GitHub and LinkedIn profiles, and their profile on a third platform (Stack Overflow, Twitter) 
+Load the search engine => home page - menu options: Search for Books, Login/Signup, 
+    input search field and submit button
+Click Search for Books menu opt -> input field to search for books and a submit button
+NOT LOGGED IN: Enter a search term in the input field and click submit => 
+     search results: book’s title, author, descrip, image, and Google Books link
+Click: Login/Signup menu option => 
+    Modal with a toggle between the option to log in or sign up
+    Toggle is Signup => three inputs: username, email address, password, and a signup button
+        Signup button click with valid email and password and  => 
+            user account created and logged in to site
+    Toggle is Login  => two inputs: email address, password and login button
+        Login button clicked with account’s email and password => 
+        Modal closes and logged in to site
+LOGGED IN:  
+    Menu options change: Search for Books, See Saved books, and Logout
+    Enter search term in input field and click submit button => 
+        shown several search results, each featuring book’s title, author, descrip, image, and a link to book on the Google Books site and button to save the book
+        Click Save button for a book => Books info saved to my account
+    Click saved books => Shown my saved books, 
+        With books title, author, description, image, and Google Books link. and remove book button. 
+        Click Remove book button => Book is deleted from my saved books list
+    Click Logout Button => logged out and taken to home page. 
