@@ -168,7 +168,7 @@ LOGGED IN:
 --------------------------  
 Complete the following in these back-end files:
 
-    auth.js: Update the auth middleware function to work with the GraphQL API.
+    server/utils/auth.js: Update the authMiddleware function to work with the GraphQL API.
     server.js: Implement the Apollo Server and apply it to the Express server as middleware.
     Schemas directory:
         index.js: Export your typeDefs and resolvers.
