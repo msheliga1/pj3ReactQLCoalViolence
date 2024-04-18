@@ -103,7 +103,17 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
         "npm install" (or "nmp i")
         Root "npm run build" builds client. - seemed to work. Created a dist folder with index.htmls
         Root "mpm run develop" starts 2 servers, including nodemon server. 
-
+    Testing: Was able to get app working at 3000. Searched and Saved. 
+        From server, seems like port 3001.  Has /api in routes/index.js. 
+            Has /users in routes/api/index.js. 
+            router.route('/').post(createUser).put(authMiddleware, saveBook);
+            ... route('/login').post(login);  
+            ... route('/me').get(authMiddleware, getSingleUser);
+            ... route('/books/:bookId').delete(authMiddleware, deleteBook);
+            3001/api/users/me give a "You have no token msg." 
+                -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!! 
+            3001/ anything else claims no file client\build\index.html. 
+                -> The build also complains about this. 
     
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
