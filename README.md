@@ -5,8 +5,8 @@ Starter Code: From coding-boot-camp/solid-brocolli. Also used Act 28 MP (beware 
 code) and Act 24.  
 
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
-Link to GitHub Repo: https://github.com/msheliga1/uriHW20ReactPortfolio   
-Link to Netlify Deployment: https://mjs-urihw20-react-portfolio.netlify.app   
+Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks  
+Link to Netlify Deployment: https://xxxxxxxxxxxxxx.netlify.app   
 (Hey, it works and even allows a decent name!) 
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view --> 
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->  
@@ -16,7 +16,7 @@ Link to Netlify Deployment: https://mjs-urihw20-react-portfolio.netlify.app
 [Link to Acceptance Criteria ](#acceptance-criteria)   
 
 ## Project Goals     
-Create a student programming portfolio front-end using react and react components.     
+Modify a book search app from REST to GraphQL using MERN-reach and web token security.     
 
 ========================================================   
 ## Technical Project Details    
@@ -28,9 +28,10 @@ Create a student programming portfolio front-end using react and react component
         -- Create a new, TOTALLY blank repo in GitHub  (no readme. It will screw things very badly!)
         -- Clone the starter repo (under the hwXX directory) to your local machine
         -- Rename the starter repo if you wish.
+            -- Change root branch to main.  git branch -m master main.  
         -- Set the remote path: git remote add <ori> <HTTPS path to remove>   
             -- Be 100% sure NOT to use the SSH link. Use the HTTPS lank!  
-        -- Push the local repo to gitHub: git push ori main   
+        -- Push the local repo to gitHub: git push <ori> main   
     OR ... Copy directories and sample files from prior project (or create from scratch).  
         -- No starter code. No need for copying one file at a time via command line.  
         -- Alternate: Go to Demo (root) folder, download zip, moving to local repo, unzip - likely fastest method.     
@@ -50,7 +51,7 @@ Create a student programming portfolio front-end using react and react component
     OR .... create blank repos, copy files using Windows Drag and Drop
         - mkdir hwNN/hwNNDetailedName 
         - cd into it
-        - git init
+        - git init  
         - Use windows 10 to copy entire contents of uri repo subdirectory. ie. 18-28 mini=project (14-28 mp). 
             - Note that this is NOT a full repo, so we don't clone it.
         - In GitHub: create a TOTALLY empty new github repo
@@ -61,13 +62,16 @@ Create a student programming portfolio front-end using react and react component
         - Do git add --a (should add all files), git commit -m "msg", git push ori main
             - If refspec error, be sure you changed master to main.
 
+    .gitIgnore: create file if not created. Be sure node_modules is in it. Be sure 
+        multiple node_modules for each package.json file (root, client, server, Main/client, etc.)  
+    Determine working folder:  
+        For Mimi-Project look in  readme. New code usually in Main. (easy now, but pain first time!)
+        For starter-repo, code normally in Develop folder. 
+    -- Move files out of working folder (Main or Develop) or copy to root. 
+        -- Preferred structure, allows Heroku to find package.json for auto-build.
+
     Create a nice long READ.md file!!  (Modify prior projects.)   
-    Determine working mini-project folder: 
-        Read the readme.  Found new code in Main. Found my code in Develop (easy now, but pain the first time!)
-        Move contents of Main to root. This is a typical structure, and Heroku MUST have a "build" file 
-            (ie. package.json) in root. 
-    .gitIgnore: create file if not created. Be sure node_modules is in it. Be sure multiple node_modules for each 
-        package.json file (root, client, server, Main/client, etc.)
+
     Package.json: Check-Add start, build, etc. to main/package-json. Enables commands to run. 
         "comment" property added at top of file. (Don't think there is another way to comment.)
         Found dev, start, build, lint, preview script commands in package.json. 
