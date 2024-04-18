@@ -81,17 +81,29 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
     --------------------------------------------------------------------
     File Structure: 
         Has client and Server folders. Root, client and server have pjs. 
-        root has index.html.  Also vite.config.js seems to connect to port 3000!
+        Root does NOT have index.html.
+        Client has index.html.  
+            vite.config.js seems to connect to port 3001 (and 3000). 
             public only has vite.svg (likely an image)
-        src 
-        src/components has Bucket.jsx, BucketForm.jsx and BucketList.jsx.
+        src folder has most stuff
+            main.jsx (main entry pt) and App.jsx
+            assets - just react.svg
+            components 
+                Login.jsx, NavBar.jsx and SignupForm.jsx.
+            pages folder
+                SavedBooks.jsx, SearchBooks.jsx  
+            utils folder 
+                API.js, auth.js, localStorage.js 
+        Server 
+            config - just DB config
+            controllers - user-controller.js
+            models - index.js, Book.js, User.js 
+            routes - index.js /api has index.js and user-routes.js 
     NPM: "npm init --y" BEFORE "npm install" to avoide ENOENT err.
         "npm install" (or "nmp i")
-        "npm run build" - seemed to work. Created a dist folder including index.html 
-    - Tried opening dist/index.html ... got a blank page
-    - Tried npm run start => this runs vite, which brings up a server on port 3000! Great. 
-        - Firefox - same caching issue as always.
-        - Chrome - Inspect - hard reload. Bucket List comes up. Awesome progress. 
+        Root "npm run build" builds client. - seemed to work. Created a dist folder with index.htmls
+        Root "mpm run develop" starts 2 servers, including nodemon server. 
+
     
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  

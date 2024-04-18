@@ -1,4 +1,6 @@
 {
+  "comment":"MJS hw21 uri MERN GraphQL books",
+  "comment2":"CLIENT package.json", 
   "name": "client",
   "private": true,
   "version": "0.0.0",

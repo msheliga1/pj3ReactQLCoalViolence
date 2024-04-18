@@ -1,4 +1,6 @@
 {
+  "comment":"MJS hw21 uri MERN GraphQL books", 
+  "comment2":"Root package.json", 
   "name": "googlebooks-app",
   "version": "1.0.0",
   "description": "",
