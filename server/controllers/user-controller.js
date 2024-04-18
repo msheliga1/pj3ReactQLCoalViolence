@@ -1,9 +1,21 @@
+// MJS 4.18.24 from starter code. Routes /api/users
 // import user model
 const { User } = require('../models');
 // import sign token function from auth
 const { signToken } = require('../utils/auth');
 
 module.exports = {
+  async getOptions({ user = null, params }, res) {
+    const foundUser = {options: "All routes begin with api/users. login: Other routes auth protected. ", 
+                        authRoutes: "/ POST or PUT book. DEL books/:bookid. /me getSingleUser loggedIn"
+                      };
+
+    if (!foundUser) {
+      return res.status(400).json({ message: 'getOptions foundUser json obj not valid.' });
+    }
+
+    res.json(foundUser);
+  },
   // get a single user by either their id or their username
   async getSingleUser({ user = null, params }, res) {
     const foundUser = await User.findOne({

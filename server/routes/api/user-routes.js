@@ -5,6 +5,7 @@ const {
   saveBook,
   deleteBook,
   login,
+  getOptions, 
 } = require('../../controllers/user-controller');
 
 // import middleware
@@ -18,5 +19,8 @@ router.route('/login').post(login);
 router.route('/me').get(authMiddleware, getSingleUser);
 
 router.route('/books/:bookId').delete(authMiddleware, deleteBook);
+
+// MJS added no middleware route
+router.route('/options').get(getOptions);
 
 module.exports = router;
