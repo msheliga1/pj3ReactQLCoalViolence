@@ -225,7 +225,7 @@ Complete the following in these back-end files:
 Create front-end files:
 
     client/src/utils folder: 
-    queries.js: Will hold the query GET_ME, which will exec the me query setup using Apollo Server.
+    queries.js: GET_ME will exec the me query setup using Apollo Server.
     mutations.js:
         LOGIN_USER will execute the loginUser mutation set up using Apollo Server.
         ADD_USER will execute the addUser mutation.

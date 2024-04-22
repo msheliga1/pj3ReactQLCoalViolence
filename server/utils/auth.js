@@ -2,7 +2,6 @@
 // Need to mod to use with GraphQL.  NOT part of Act 28-MP. Used Act 24 jwt. 
 // Next line from Act 21-24. server/util/auth. 
 const { GraphQLError } = require('graphql');  // mod not found err
-
 const jwt = require('jsonwebtoken');
 
 // set token secret and expiration date
@@ -11,19 +10,38 @@ const expiration = '2h';
 
 module.exports = {
   // function for our authenticated routes. From starter code. 
- authMiddleware: function (req, res, next) {
+  // Got this from Act 26. Graph QL (non rest) version. 
+  // We also need to modify client/src/utils/auth (possibly) and App.js. 
+  authMiddleware: function ({ req }) {
+    console.log('MJS: Starting authMiddleware GQL version');
+    let token = req.body.token || req.query.token || req.headers.authorization;
+    if (req.headers.authorization) {
+      token = token.split(' ').pop().trim();
+    }
+    if (!token) {
+      console.log("No token found in AuthMiddleware (GQL version)"); 
+      return req;
+    }
+    try {
+      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      req.user = data;
+    } catch {
+      console.log('MJS: Invalid token');
+    }
+    return req;
+  },  // end authMiddleware (GQL version)
+
+  // function for our authenticated routes. From starter code. (REST versrion)
+  authMiddlewareRest: function (req, res, next) {
     // allows token to be sent via  req.query or headers
     let token = req.query.token || req.headers.authorization;
-
     // ["Bearer", "<tokenvalue>"]
     if (req.headers.authorization) {
       token = token.split(' ').pop().trim();
     }
-
     if (!token) {
       return res.status(400).json({ message: 'MJS You have no token!' });
     }
-
     // verify token and get user data out of it
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
@@ -32,7 +50,6 @@ module.exports = {
       console.log('Invalid token');
       return res.status(400).json({ message: 'invalid token!' });
     }
-
     // send to next endpoint
     next();
   }, // end AuthMiddleware method - Not needed if using GraphQL   
