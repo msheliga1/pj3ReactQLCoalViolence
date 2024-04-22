@@ -23,10 +23,10 @@
   const typeDefs = `
   type User {
     _id: ID
-    username: String
-    email: String
-    password: String
-    savedBooks: [Book]
+    username: String! 
+    email: String! 
+    password: String! 
+    savedBooks: [Book]! 
   }
 
   type Book {
@@ -62,11 +62,12 @@
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    saveBookById( userId: ID!, bookId: String!, title: String!, description: String!, 
-                  authors: [String]!, image: String, link: String): User
     saveBook(     username: String!, bookId: String!, title: String!, description: String!, 
                   authors: [String]!, image: String, link: String): User
-    removeBook(userId: ID!, bookId: String!): User  
+    saveBookById( userId: ID!, bookId: String!, title: String!, description: String!, 
+                  authors: [String]!, image: String, link: String): User
+    removeBook(username: String!, bookId: String!): User  
+    removeBookById(userId: ID!, bookId: String!): User  
     addBookOld(bookText: String!, bookAuthor: String!): Book 
     saveBookCreate(bookId: String!, title: String, description: String, authors: String, image: String, link:String): Book
     addComment(bookId: ID!, commentText: String!, commentAuthor: String!): Book

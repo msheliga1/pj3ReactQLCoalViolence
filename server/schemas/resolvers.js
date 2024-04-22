@@ -71,10 +71,10 @@ const resolvers = {
       const origUser = await User.findOne({ username });
       console.log("User from findOne ", origUser);  // returns correct value
       const user = await User.findOneAndUpdate(
-        { username: username },
-        { $addToSet: { books: { bookId, title, description, authors, image, link } }, },
-        // { new: true, runValidators: true, }
-        { new: true, }
+        { username: username }, 
+        // Note savedBooks, not just books !!!! - ARgghh 
+        { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
+        { new: true, runValidators: true, }
       );
       console.log("User from findOneAndUpdate ", user);  // returns empty books array
       return user; 
@@ -86,23 +86,37 @@ const resolvers = {
           console.log("User from findOne ", origUser);  // returns null 
           return User.findOneAndUpdate(
             { _id: userId },
-            { $addToSet: { books: { bookId, title, description, authors, image, link } }, },
+            { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
             { new: true, runValidators: true, }
           );
         },  // end AddBook
     // This mimics removeComment which was embedded in old Thought
-    removeBook: async (parent, { userId, bookId }) => {
-      console.log("Removing book from user ", userId, " with gBookId ", bookId); 
-      const origUser = await User.findOne({ userId });
+    removeBook: async (parent, { username, bookId }) => {
+      console.log("Removing book from username ", username, " with gBookId ", bookId); 
+      const origUser = await User.findOne({ username });
       console.log("User from findOne ", origUser);  // returns null 
-      //   removeComment from Book code was  { _id: bookId },
+      // removeComment method from Book code was  { _id: bookId },
       const user = await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { books: { bookId: bookId } } },
+        { username },
+        { $pull: { savedBooks: { bookId: bookId } } },
         { new: true }
       );; 
       console.log("Revmoved book ... returning updated user."); 
       return user; 
+    }, // end removeBook returns User
+    // This mimics removeComment which was embedded in old Thought
+    removeBookById: async (parent, { userId, bookId }) => {
+          console.log("Removing book from user ", userId, " with gBookId ", bookId); 
+          const origUser = await User.findOne({ userId });
+          console.log("User from findOne ", origUser);  // returns null 
+          //   removeComment from Book code was  { _id: bookId },
+          const user = await User.findOneAndUpdate(
+            { _id: userId },
+            { $pull: { savedBooks: { bookId: bookId } } },
+            { new: true }
+          );; 
+          console.log("Revmoved book ... returning updated user."); 
+          return user; 
     }, // end removeBook returns User
     // ------------- Old examples --------------------
     addBookOld: async (parent, { bookText, bookAuthor  }) => {  // old Thought example 

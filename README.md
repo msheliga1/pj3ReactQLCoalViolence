@@ -131,6 +131,9 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 Noted that this code seesm to work in Act21-24. What a PITA> 
         Tried saveBook (by username). 
             - Could not get to update books arrays.  Arghhh. 
+            - Fixed: "books" to "savedBooks".  Now works.
+            - Duplicates allowed issue: 
+        Tried removeBook (by username): Works 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
