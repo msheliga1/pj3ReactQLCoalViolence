@@ -114,7 +114,7 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!! 
             3001/ anything else claims no file client\build\index.html. 
                 -> The build also complains about this. 
-        Got users working.  Great 1st step. 
+        Got GraphQL users working.  Great 1st step. 
         Got addUser working.  Great next step.
         Figured out that books array seems to be "embedded" in Users. 
             - Similar to how Comments were embedded in Thoughts (Act 24?) 
@@ -125,6 +125,12 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 Eventually able to change line numbers in error msg (at bottom) by adding blank line.s
                 Blanks must be added inside back-ticks. Finally found the missing :. 
                 Incredible how hard this is to find even when you know it must be before String.   
+        Tried getUserById 
+            - All 3 of these need to use getById, instead of getOnexxx.  I couldn't get this working. I'm 
+                almost sure I tried this on a "new" user whose "_ID" is an ID, not a string. Waht a mess.
+                Noted that this code seesm to work in Act21-24. What a PITA> 
+        Tried saveBook (by username). 
+            - Could not get to update books arrays.  Arghhh. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  

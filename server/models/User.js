@@ -1,3 +1,6 @@
+// MJS 4.21.24 - Orig from starter code.  Note NO _id in this file, but it could?? be auto-generated. 
+// Users have an embedded array of savedBooks, as well as a virtual bookCount value. 
+// Wether or not GraphQL typeders should have an _id is unclear.  Trying to getById wont work. 
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
