@@ -114,7 +114,17 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!! 
             3001/ anything else claims no file client\build\index.html. 
                 -> The build also complains about this. 
-    
+        Got users working.  Great 1st step. 
+        Got addUser working.  Great next step.
+        Figured out that books array seems to be "embedded" in Users. 
+            - Similar to how Comments were embedded in Thoughts (Act 24?) 
+        Added saveBook
+        Added removeBook 
+            - HORRIBLE error. Clear I was missing a : before STring, but didnt' even tell me what file!
+                Not sure if file typeDefs or resolvers. But type defs has 99% of the String values. 
+                Eventually able to change line numbers in error msg (at bottom) by adding blank line.s
+                Blanks must be added inside back-ticks. Finally found the missing :. 
+                Incredible how hard this is to find even when you know it must be before String.   
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
@@ -180,7 +190,7 @@ Complete the following in these back-end files:
             Mutation type:
                 login: Accepts an email and password as parameters; returns an Auth type.  
                 addUser: Accepts username, email, and pw as params; returns an Auth type.  
-                saveBook: Accepts book authors array, descript, title, bookId, image, and link params
+                saveBook: Accepts book bookId, title, descript, authors array, image, and link params
                 returns a User type. (Look into creating an input type to handle all of these params!)
                 removeBook: Accepts a book's bookId as a parameter; returns a User type.
             User type:
