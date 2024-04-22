@@ -9,7 +9,7 @@
     comments: [Comment]!
   } */ 
   // New bookID is from googleBooks  
- // part of User     books: [Book]
+ // part of User     books: [Book] => savedBooks works in GQL 4.28.24 MJS
 const typeDefs = `
   type User {
     _id: ID
