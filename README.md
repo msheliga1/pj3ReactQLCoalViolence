@@ -134,6 +134,7 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
             - Fixed: "books" to "savedBooks".  Now works.
             - Duplicates allowed issue: 
         Tried removeBook (by username): Works 
+        Tried getById - importing ObjectId and new ObjectId(stringValue). Complained cant cast. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
@@ -223,6 +224,7 @@ Complete the following in these back-end files:
 ------------------------------   
 Create front-end files:
 
+    client/src/utils folder: 
     queries.js: Will hold the query GET_ME, which will exec the me query setup using Apollo Server.
     mutations.js:
         LOGIN_USER will execute the loginUser mutation set up using Apollo Server.

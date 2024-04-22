@@ -42,7 +42,7 @@ module.exports = {
     extensions: { code: 'UNAUTHENTICATED', },
   }), 
 
-  // signToken seems idential to Act21-24
+  // signToken seems identical to Act21-24
   // Per TA Mike, this will sign the toen and provide the token. 
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };

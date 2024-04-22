@@ -3,10 +3,13 @@
 // Not use of Authenticotor error in utils/auth, which replaces 
 // REST authMiddleware method. 
 const { User, Book } = require('../models');
+
 const { signToken, AuthenticationError } = require('../utils/auth');
 
+const { ObjectId } = require('mongodb'); // per stack ovdrflow
+
 const resolvers = {
-    // -------------- Queries --------------
+  // -------------- Queries --------------
   // me: Which returns a User type.
   // users: Used for debgging.
   // user: Used for debgging.
@@ -15,10 +18,14 @@ const resolvers = {
     // Moded from Act21-26. MJS need args here before context, which is the 3rd argument
     // Me returns the logged in user via findOne(contest.user._id)
     me: async (parent, args, context) => {
+      console.log("Starting me query with context.user", context.user); 
       if (context.user) {
         return User.findOne({ _id: context.user._id });
       }
+      console.log("Throwing me query not logged in AuthenticatonError ... ");
+      // MJS 4.22.24. Produces a "AuthenticalError is not a constructor error"
       throw new AuthenticationError('You need to be logged in!');
+      // throw new AuthenticationError('You need to be logged in!');  // gives AuthenticationError isnt a function. 
     },
     users: async () => {   // used for testing.  
         return User.find()
@@ -31,6 +38,8 @@ const resolvers = {
       return User.findOne({ username });
     },
     userById: async (parent, { userId }) => {
+      // wont work without new.  But case fails for new ObjectId(userId)
+      // const newId = new ObjectId(userId);   // saw similar in GraphQL. Imported above. Still wont work 
       console.log("Getting user by ID ", userId); 
       const origUser = await User.findById({ userId });
       console.log("Get UserById findById ", origUser);  // returns null 
