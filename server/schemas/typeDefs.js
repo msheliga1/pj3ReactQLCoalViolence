@@ -1,21 +1,32 @@
 // MJS 4.18.24 moded Act21-24. Also did this for my Mini Project. 
 // But this one already has a User Type. Thought baiscally becomes Book. 
+
+  /* type Book {
+    _id: ID
+    bookText: String
+    bookAuthor: String
+    createdAt: String
+    comments: [Comment]!
+  } */ 
+  // New bookID is from googleBooks  
+ // part of User     books: [Book]
 const typeDefs = `
   type User {
     _id: ID
     username: String
     email: String
     password: String
-    books: [Book]!
+    savedBooks: [Book]
   }
 
   type Book {
-    _id: ID
-    bookText: String
-    bookAuthor: String
-    createdAt: String
-    comments: [Comment]!
-  }
+    authors: [String]! 
+    description: String!
+    bookId: String!      
+    image: String
+    link: String
+    title: String!
+  } 
 
   type Comment {
     _id: ID
@@ -31,9 +42,8 @@ const typeDefs = `
 
   type Query {
     users: [User]
-    usersWithBook: [User]
+    getAllUsersNoBook: [User]
     user(username: String!): User
-    books(username: String): [Book]
     book(bookId: ID!): Book
   }
 
@@ -51,4 +61,11 @@ const typeDefs = `
   }
 `;
 
+/* type Query {
+  users: [User]
+  getAllUsersNoBook: [User]
+  user(username: String!): User
+  books(username: String): [Book]
+  book(bookId: ID!): Book
+} */ 
 module.exports = typeDefs;

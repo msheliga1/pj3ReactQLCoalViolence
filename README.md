@@ -180,8 +180,8 @@ Complete the following in these back-end files:
             Mutation type:
                 login: Accepts an email and password as parameters; returns an Auth type.  
                 addUser: Accepts username, email, and pw as params; returns an Auth type.  
-                saveBook: Accepts book authors array.
-                    descript, title, bookId, image, and link as params; returns a User type. (Look into creating an input type to handle all of these params!)
+                saveBook: Accepts book authors array, descript, title, bookId, image, and link params
+                returns a User type. (Look into creating an input type to handle all of these params!)
                 removeBook: Accepts a book's bookId as a parameter; returns a User type.
             User type:
                 _id
@@ -196,7 +196,7 @@ Complete the following in these back-end files:
                 title
                 image
                 link
-            Auth type:
+            Auth type: // Authorization not Author
                 token
                 user (References the User type.)
 

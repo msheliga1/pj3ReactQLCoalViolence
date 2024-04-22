@@ -7,29 +7,31 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
+    getAllUsersNoBook: async () => {
       return User.find();
     },
-    usersWithBook: async () => {
-        return User.find().populate('books');
-      },
+    users: async () => {        
+        return User.find()
+        // return User.find().populate('books');
+    }, 
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate('books');
     },
-    books: async (parent, { username }) => {
+    /* books: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
-    },
+    }, */ 
     book: async (parent, { bookId }) => {
       return Book.findOne({ _id: bookId });
     },
   },
 
-  Mutation: {
+  Mutation: {  // added savedBooks [] to User.create
     addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+      const user = await User.create({ username, email, password, "savedBooks":[] });
       const token = signToken(user);
-      return { token, user };
+      return { token, user };  // This returns a user in GraphQL
+      // return { user }; 
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
