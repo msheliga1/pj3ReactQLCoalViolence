@@ -10,7 +10,16 @@ const resolvers = {
   // me: Which returns a User type.
   // users: Used for debgging.
   // user: Used for debgging.
+  // userById: for debugging.  Could not get to work. Arghhh. 
   Query: {
+    // Moded from Act21-26. MJS need args here before context, which is the 3rd argument
+    // Me returns the logged in user via findOne(contest.user._id)
+    me: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id });
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     users: async () => {   // used for testing.  
         return User.find()
         // return User.find().populate('books');
@@ -104,7 +113,7 @@ const resolvers = {
       console.log("Revmoved book ... returning updated user."); 
       return user; 
     }, // end removeBook returns User
-    // This mimics removeComment which was embedded in old Thought
+    // This mimics removeComment which was embedded in old Thought. Does NOT work MJS 4.22.24 
     removeBookById: async (parent, { userId, bookId }) => {
           console.log("Removing book from user ", userId, " with gBookId ", bookId); 
           const origUser = await User.findOne({ userId });
@@ -117,7 +126,7 @@ const resolvers = {
           );; 
           console.log("Revmoved book ... returning updated user."); 
           return user; 
-    }, // end removeBook returns User
+    }, // end removeBook returns User 
     // ------------- Old examples --------------------
     addBookOld: async (parent, { bookText, bookAuthor  }) => {  // old Thought example 
       const book = await Book.create({ bookText, bookAuthor });

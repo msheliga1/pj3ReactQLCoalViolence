@@ -57,6 +57,7 @@
     userById(userId: ID!): User
     userBookPopulate(username: String!): User
     book(bookId: ID!): Book
+    me: User
   }
 
   type Mutation {
