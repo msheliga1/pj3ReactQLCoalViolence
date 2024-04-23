@@ -136,13 +136,19 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
             - Duplicates allowed issue: 
         Tried removeBook (by username): Works 
         Tried getById - importing ObjectId and new ObjectId(stringValue). Complained cant cast. 
-    SERVER 
-        Found queries and mutations under client/src/utils 
+SERVER 
+    Should run at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!)
+    Found queries and mutations under client/src/utils 
         Added graphQL style routes, by copying and pasting from graphQL. Made sure got all non password data. 
+    Verified: main page still displays. 
+    Verified: main page still searches correctly. 
+    Goal: Sign Up. 
         Moded App.jsx. Largely used Act 26, but with NavBar instead of Header and Footer. 
-        Got build error. Missing dependency "@apollo/client": "^3.7.14", (also missing graphql). 
+            Got build error. Missing dependency "@apollo/client": "^3.7.14", (also missing graphql). 
             - Accidentally added to SERVER package.json.  Gave dreaded rollup issue. Mike the TA said to 
                 put in the client package.json.  Got rid of build error. 
+        Tweakd vite.config.js (per Andrew-Mike. Would never have thought of on my own.).
+        Moded SignUpForm.jsx. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
