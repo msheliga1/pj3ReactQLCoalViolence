@@ -16,7 +16,8 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const ADD_USER = gql`
+// Changed name from ADD_USER to ADD_USER2 since SignUpForm threw ADD_USER not a function error. 
+export const ADD_USER2 = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
       token

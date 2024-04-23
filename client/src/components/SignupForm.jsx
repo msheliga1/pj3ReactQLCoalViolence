@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+// This seems to be the only change in the entire file vs. Act26
 // import { createUser } from '../utils/API';
-import { ADD_USER } from '../utils/mutations'; 
+import { ADD_USER2 } from '../utils/mutations';  // correct name 4.23.24
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
@@ -16,40 +17,46 @@ const SignupForm = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
-  };
+  }; 
+  // SignupForm code same as Act 26 above here. 
 
   const handleFormSubmit = async (event) => {
+    console.log("handleFormSubmit (SignUpForm.jsx) starting ... "); 
     event.preventDefault();
-
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-
     try {
       // const response = await createUser(userFormData);
-      const response = await ADD_USER(userFormData);
-
+      console.log("handleFormSubmit trying to ADD_USER2 with userFromData ", userFormData);
+      const response = await ADD_USER2(userFormData);
+      console.log("hanleFormSubmit returned from ADD_USER2 ... response: ", response); 
       if (!response.ok) {
+        console.log("handleFromSubmit response not ok")
         throw new Error('something went wrong!');
       }
-
+      console.log("handleFromSubmit response ok. ");
       const { token, user } = await response.json();
+      console.log("handleFromSubmit token. ", token); 
       console.log(user);
       Auth.login(token);
     } catch (err) {
+      console.log("handleFromSubmit catch an err ... setting ShowAlert to true, will display html mesg."); 
       console.error(err);
       setShowAlert(true);
-    }
+    } // end try-catch
+    // code same as Act26 to here
 
     setUserFormData({
       username: '',
       email: '',
       password: '',
     });
-  };
+  }; // end handleFormSubmit
+  // code same as Act 26 except for 1 dhange up to here.
 
   return (
     <>
@@ -64,7 +71,7 @@ const SignupForm = () => {
           <Form.Label htmlFor='username'>Username</Form.Label>
           <Form.Control
             type='text'
-            placeholder='Your username'
+            placeholder='MJS Your username'
             name='username'
             onChange={handleInputChange}
             value={userFormData.username}
@@ -106,7 +113,7 @@ const SignupForm = () => {
         </Button>
       </Form>
     </>
-  );
-};
+  ); // end return html-react code
+}; // end signupForm
 
 export default SignupForm;

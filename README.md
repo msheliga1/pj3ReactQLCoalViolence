@@ -7,7 +7,7 @@ code) and Act 24.
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
 Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks  
 Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git  
-(Other deployment wasnt working for many folks.) 
+(Heroku deployment requires paid mongo host. Render wasnt working for many folks.) 
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view --> 
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->  
 <!-- Link to Heroku: https://uri-hw-19-jate-idb-pwa-9db53dc82bbb.herokuapp.com/   --> 
@@ -114,7 +114,7 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!! 
             3001/ anything else claims no file client\build\index.html. 
                 -> The build also complains about this. 
-    CLIENT - GraphQL 
+    SERVER - GraphQL 
         Got GraphQL users working.  Great 1st step. 
         Got addUser working.  Great next step.
         Figured out that books array seems to be "embedded" in Users. 
@@ -136,8 +136,9 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
             - Duplicates allowed issue: 
         Tried removeBook (by username): Works 
         Tried getById - importing ObjectId and new ObjectId(stringValue). Complained cant cast. 
-SERVER 
-    Should run at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!)
+CLIENT  
+    Should run at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!). 
+        App at port 3000. GraphQL at 3001. 
     Found queries and mutations under client/src/utils 
         Added graphQL style routes, by copying and pasting from graphQL. Made sure got all non password data. 
     Verified: main page still displays. 
@@ -148,7 +149,21 @@ SERVER
             - Accidentally added to SERVER package.json.  Gave dreaded rollup issue. Mike the TA said to 
                 put in the client package.json.  Got rid of build error. 
         Tweakd vite.config.js (per Andrew-Mike. Would never have thought of on my own.).
-        Moded SignUpForm.jsx. 
+        Moded SignUpForm.jsx.  Only 1 or 2 lines using ADD_USER needed changed. 
+        Error: ADD_USER not a function.  ADD_USER imported from mutations. Code same as 26. Mutation same as 26. 
+            Changed ADD_USER to ADD_USER2 in mutation and in import and call. Same not a function error. 
+            NPM i in client. Rebuilt. Not helpful. 
+            NPM i r/c/s. Rebuilt. Restarted server. Not helpful.
+        Gave up on Sign Up for now and went to Login. See if same error occurs. 
+    Goal; Log In
+        Copied parts of userFormSubmit from Act 26 Login.jsx to LoginForm.jsx 
+        Had to keep useState for validator and showAlert.  
+        Note name change of other useState from userFormData to formState (and setFormState).
+            Should have changed the useState line, instead changed all others. 
+        Able to get rid of all "render" errors. 
+        Able to login. Super duper awesome great. 
+    Goal: Add Book. 
+        Once Logged in can search for books. Get addBook button with each book found. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
