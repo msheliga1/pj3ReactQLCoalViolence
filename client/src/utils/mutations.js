@@ -29,7 +29,7 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_BOOK = gql`
-mutation saveBook($username: String!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!) {
+  mutation saveBook($username: String!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!) {
     saveBook(username: $username, bookId: $bookId, title: $title, description: $description, authors: $authors) {
       _id
       email
@@ -43,10 +43,25 @@ mutation saveBook($username: String!, $bookId: String!, $title: String!, $descri
         link
       }
     }
+  }
 `;
 
 export const REMOVE_BOOK = gql`
-
+mutation removeBook($username: String!, $bookId: String!) {
+    removeBook(username: $username, bookId: $bookId) {
+      _id
+      email
+      username
+      savedBooks {
+        bookId
+        title
+        description
+        authors
+        image
+        link
+      }
+    }
+ s }
 `;
 
 // Samples from Act 21-26
