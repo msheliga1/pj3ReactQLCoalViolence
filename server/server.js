@@ -47,6 +47,7 @@ const startApolloServer = async () => {
 // Uncomment this code once you have built out queries and mutations in the client folder
    db.once('open', () => {
      app.listen(PORT, () => {
+       console.log(`The app should be running for at least npm run develop`);
        console.log(`API server running on port ${PORT}!`);
        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
      });
