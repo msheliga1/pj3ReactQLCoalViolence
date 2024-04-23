@@ -1,3 +1,4 @@
+// server side authentication code.  GraphQL version. From Act 21-26.
 const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
 

@@ -43,7 +43,7 @@ const resolvers = {
       console.log("Getting user by ID ", userId); 
       const origUser = await User.findById({ userId });
       console.log("Get UserById findById ", origUser);  // returns null 
-      return User.findOne({ userId });
+      return User.findOne({ _id: userId });
     },
     userBookPopulate: async (parent, { username }) => {  // wont work since books is embedded
       return User.findOne({ username }).populate('books');
