@@ -114,6 +114,7 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
                 -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!! 
             3001/ anything else claims no file client\build\index.html. 
                 -> The build also complains about this. 
+    CLIENT - GraphQL 
         Got GraphQL users working.  Great 1st step. 
         Got addUser working.  Great next step.
         Figured out that books array seems to be "embedded" in Users. 
@@ -135,6 +136,13 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
             - Duplicates allowed issue: 
         Tried removeBook (by username): Works 
         Tried getById - importing ObjectId and new ObjectId(stringValue). Complained cant cast. 
+    SERVER 
+        Found queries and mutations under client/src/utils 
+        Added graphQL style routes, by copying and pasting from graphQL. Made sure got all non password data. 
+        Moded App.jsx. Largely used Act 26, but with NavBar instead of Header and Footer. 
+        Got build error. Missing dependency "@apollo/client": "^3.7.14", (also missing graphql). 
+            - Accidentally added to SERVER package.json.  Gave dreaded rollup issue. Mike the TA said to 
+                put in the client package.json.  Got rid of build error. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
