@@ -6,8 +6,8 @@ code) and Act 24.
 
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
 Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks  
-Link to Netlify Deployment: https://xxxxxxxxxxxxxx.netlify.app   
-(Hey, it works and even allows a decent name!) 
+Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git  
+(Other deployment wasnt working for many folks.) 
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view --> 
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->  
 <!-- Link to Heroku: https://uri-hw-19-jate-idb-pwa-9db53dc82bbb.herokuapp.com/   --> 
