@@ -164,6 +164,14 @@ CLIENT
         Able to login. Super duper awesome great. 
     Goal: Add Book. 
         Once Logged in can search for books. Get addBook button with each book found. 
+    Goal: Save Boook. 
+        Code from addComment Act 26 varies more than other code.  
+        Able to gather together expected username and book values. 
+        Get a 400 error.  Might be because hardwired username to MJS. 
+        Noted that not all books have descriptions. 
+            Changed SAVE_BOOK schema, GQL and mutation so that descption is NOT required. 
+            Freaking graphQL still wont add without a desciption. "null" does not work either. But 
+                okay without an image or link value. Arghhh. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
