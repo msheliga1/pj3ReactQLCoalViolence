@@ -167,8 +167,8 @@ SERVER
     NPM - Node package manager  
     GraphQL - simplier way to implement REST routes. 
     Web Tokens - simple security. 
-    Netlify - Another new way to deploy. Does hot changes (unlike Heroku which requires a push). 
-        Also allows deployment name change. 
+    Deployemnt: Reflex - wasnt' working for most poeple. Need detailed help to deploy. 
+          - Heroku. See https://coding-boot-camp.github.io/full-stack/heroku/deploy-with-heroku-and-mysql
 
 ## Acceptance Criteria   
 -----------------------       
