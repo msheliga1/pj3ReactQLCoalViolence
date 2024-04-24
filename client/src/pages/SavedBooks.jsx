@@ -1,3 +1,5 @@
+// MJS 4.23.24 - client/src/pages/SavedBooks.jsx from uri starterCode. 
+// Goal convert from REST to GraphQL 
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -21,42 +23,34 @@ const SavedBooks = () => {
     const getUserData = async () => {
       try {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
-
         if (!token) {
           return false;
         }
-
         const response = await getMe(token);
-
         if (!response.ok) {
           throw new Error('something went wrong!');
         }
-
         const user = await response.json();
         setUserData(user);
       } catch (err) {
         console.error(err);
       }
-    };
-
+    };  // end getUserData
     getUserData();
-  }, [userDataLength]);
+    // next line means run method when userDataLength changes, as well as page load
+  }, [userDataLength]);  // end useEffect
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
-
     try {
       const response = await deleteBook(bookId, token);
-
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
-
       const updatedUser = await response.json();
       setUserData(updatedUser);
       // upon success, remove book's id from localStorage
@@ -64,7 +58,7 @@ const SavedBooks = () => {
     } catch (err) {
       console.error(err);
     }
-  };
+  }; // end handleDeleteBook 
 
   // if data isn't here yet, say so
   if (!userDataLength) {
