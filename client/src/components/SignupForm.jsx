@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-// This seems to be the only change in the entire file vs. Act26
+// First change compared to Act26 (at one time was looking at WRONG file)
 // import { createUser } from '../utils/API';
 import { ADD_USER2 } from '../utils/mutations';  // correct name 4.23.24
+import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
@@ -13,12 +14,13 @@ const SignupForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+  // "Convert" ADD_USER2 mutation to addUser method
+  const [addUser, { error, data }] = useMutation(ADD_USER2);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   }; 
-  // SignupForm code same as Act 26 above here. 
 
   const handleFormSubmit = async (event) => {
     console.log("handleFormSubmit (SignUpForm.jsx) starting ... "); 
@@ -30,19 +32,17 @@ const SignupForm = () => {
       event.stopPropagation();
     }
     try {
+      // These lines generally changed REST->GQL 
       // const response = await createUser(userFormData);
       console.log("handleFormSubmit trying to ADD_USER2 with userFromData ", userFormData);
-      const response = await ADD_USER2(userFormData);
-      console.log("hanleFormSubmit returned from ADD_USER2 ... response: ", response); 
-      if (!response.ok) {
-        console.log("handleFromSubmit response not ok")
-        throw new Error('something went wrong!');
-      }
-      console.log("handleFromSubmit response ok. ");
-      const { token, user } = await response.json();
-      console.log("handleFromSubmit token. ", token); 
-      console.log(user);
-      Auth.login(token);
+      // Next line a poor convert of old method.  Can't treeat ADD_USER2(pararm) as a method. 
+      // const response = await ADD_USER2(userFormData); // No Good 
+      const { data } = await addUser({variables: { ...userFormData },});
+      console.log("handleFormSubmit returned from addUser done: ", data); 
+
+      Auth.login(data.addUser.token);
+      // Auth.login(token);
+      console.log("handleFormSubmit returned from login done: ");
     } catch (err) {
       console.log("handleFromSubmit catch an err ... setting ShowAlert to true, will display html mesg."); 
       console.error(err);

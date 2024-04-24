@@ -29,22 +29,23 @@ export const ADD_USER2 = gql`
   }
 `;
 
+// MJS 4.23.24. Made description optional since some books dont have it.  Added image and link
 export const SAVE_BOOK = gql`
-  mutation saveBook($username: String!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!) {
-    saveBook(username: $username, bookId: $bookId, title: $title, description: $description, authors: $authors) {
-      _id
-      email
-      username
-      savedBooks {
-        bookId
-        title
-        description
-        authors
-        image
-        link
-      }
+mutation SaveBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+  saveBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
+    _id
+    email
+    username
+    savedBooks {
+      bookId
+      title
+      description
+      authors
+      image
+      link
     }
   }
+}
 `;
 
 export const REMOVE_BOOK = gql`
@@ -65,7 +66,7 @@ mutation removeBook($username: String!, $bookId: String!) {
  s }
 `;
 
-// Samples from Act 21-26
+// Samples from Act 21-26 -------- 
 export const ADD_THOUGHT = gql`
   mutation addThought($thoughtText: String!) {
     addThought(thoughtText: $thoughtText) {

@@ -62,9 +62,9 @@ export const QUERY_ME = gql`
   }
 `;
 
-// MJS 4.22.24
+// MJS 4.22.24 
 export const GET_ME = gql`
-query GET_ME {
+query me {
   me {
     _id
     email
