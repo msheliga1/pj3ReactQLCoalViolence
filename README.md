@@ -8,6 +8,7 @@ code) and Act 24.
 Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks  
 Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git  
 (Heroku deployment requires paid mongo host. Render wasnt working for many folks.) 
+(Andrew indicated alse NEED MongoDB Atlas which is also some type of hosting site.)
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view --> 
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->  
 <!-- Link to Heroku: https://uri-hw-19-jate-idb-pwa-9db53dc82bbb.herokuapp.com/   --> 
@@ -155,7 +156,12 @@ CLIENT
             NPM i in client. Rebuilt. Not helpful. 
             NPM i r/c/s. Rebuilt. Restarted server. Not helpful.
         Gave up on Sign Up for now and went to Login. See if same error occurs. 
-    Goal; Log In
+        4.23 Class. Andrew said I should make this look like Login and AddBook. 
+        Basic Problem: Somehow miscopied incomplete file from ??? to Signup26.jsx.  File NOT from Act 26. 
+        Added code analgous to correct signup26 and login. Eliminated any code with res or result.
+        (Commented out getMe useQuery in SearchBooks.jsx)
+        Finally got to work. Verified new sign-up is in list of all GQL users. 
+    Goal: Log In
         Copied parts of userFormSubmit from Act 26 Login.jsx to LoginForm.jsx 
         Had to keep useState for validator and showAlert.  
         Note name change of other useState from userFormData to formState (and setFormState).
