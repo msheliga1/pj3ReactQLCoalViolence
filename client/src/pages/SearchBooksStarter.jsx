@@ -1,50 +1,50 @@
 // MJS 2.23.24 - client/src/pages/SearchBooks.jsx from uri starter code. 
-// This code not only searches for books, it allows one to save each found book. 
-// Goal: Convert REST to GraphQL 
 import { useState, useEffect } from 'react';
-import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
+import {
+  Container,
+  Col,
+  Form,
+  Button,
+  Card,
+  Row
+} from 'react-bootstrap';
+
 import Auth from '../utils/auth';
-
-// import { saveBook, searchGoogleBooks } from '../utils/API';
-import { searchGoogleBooks } from '../utils/API';  // likely need to search Google
+import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-// next 3 lines from commentForm26 
-import { Link } from 'react-router-dom';
-// import { useQuery, useMutation } from '@apollo/client';
-import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
-import { GET_ME } from '../utils/queries';
 
-const SearchBooks = ( username ) => { 
+const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
+
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  // Added next line for GraphQL. Basically convert SAVE_BOOK graphQL into saveBook method. 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK); // must be outside handleForm promise
-  // Added next line for GraphQL. Basically find out who is logged in. 
-  // const [getMe, { errorQ }] = useQuery(GET_ME); // must be outside handleForm promise
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
-  });  // end useEffect
+  });
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
     if (!searchInput) {
       return false;
     }
+
     try {
       const response = await searchGoogleBooks(searchInput);
+
       if (!response.ok) {
-        throw new Error('something went wrong searching for a book. ' + searchInput);
+        throw new Error('something went wrong!');
       }
+
       const { items } = await response.json();
+
       const bookData = items.map((book) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
@@ -52,48 +52,39 @@ const SearchBooks = ( username ) => {
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
+
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
-    } // end try-catch 
-  };  // end handleFormSubmit 
+    }
+  };
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log("SearchBooks.jsx handleSaveBook saving for userID ", username); 
-    console.log("SearchBooks.jsx handleSaveBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
+
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+
     if (!token) {
       return false;
     }
-    try {
-      console.log("SearchBooks.jsx handleSaveBook got token ... saving book using token ", token); 
-      // const response = await saveBook(bookToSave, token);  // old REST method
-      // GraphQL method from CommentForm26 
-      // const { data } = await addComment({
-      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, },
-      // });
-      // setCommentText('');
 
-      // below 3 lines from REST starter code.
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-      const params = { username: "MJS", ...bookToSave}; 
-      console.log("SearchBooks.jsx handleSaveBook saving book using ", params); 
-      //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
-      const { data } = await saveBook({variables: { username: "MJS", ...bookToSave },});
-      console.log("Saved book. Returned data: ", data); 
+    try {
+      const response = await saveBook(bookToSave, token);
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }
-  }; // end handleSaveBook 
+  };
 
   return (
     <>
