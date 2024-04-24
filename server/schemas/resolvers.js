@@ -41,8 +41,8 @@ const resolvers = {
       // wont work without new.  But case fails for new ObjectId(userId)
       // const newId = new ObjectId(userId);   // saw similar in GraphQL. Imported above. Still wont work 
       console.log("Getting user by ID ", userId); 
-      const origUser = await User.findById({ userId });
-      console.log("Get UserById findById ", origUser);  // returns null 
+      const origUser = await User.findById( userId );  // not {_id: userID}
+      console.log("Get UserById findById ", origUser);  // returns null for {userId}
       return User.findOne({ _id: userId });
     },
     userBookPopulate: async (parent, { username }) => {  // wont work since books is embedded
