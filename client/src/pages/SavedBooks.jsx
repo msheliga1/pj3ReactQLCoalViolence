@@ -1,39 +1,49 @@
 // MJS 4.23.24 - client/src/pages/SavedBooks.jsx from uri starterCode. 
 // Goal convert from REST to GraphQL 
 import { useState, useEffect } from 'react';
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { useQuery } from '@apollo/client';
+import { GET_ME } from '../utils/queires'; 
 
+// Remove the useEffect() Hook that sets the state for UserData.
+// Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
 const SavedBooks = () => {
   console.log("Staring SavedBooks ..."); 
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({});  // here is the user variable
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
 
+  const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
+  console.log("SavedBooks GET_ME returned data ", data); 
+  if (!data) { 
+    console.log("SavedBooks userQuery(GET_ME) no data: ", data); 
+    // return false; 
+  }
+
   useEffect(() => {
     const getUserData = async () => {
+      console.log("Staring SavedBooks - getUserData..."); 
       try {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
         if (!token) {
+          console.log("Saved books. Could not get token. returning."); 
           return false;
         }
-        const response = await getMe(token);
+        console.log("SavedBooks found token: ", token); 
+        /* const response = await getMe(token);
         if (!response.ok) {
           throw new Error('something went wrong!');
         }
-        const user = await response.json();
+        const user = await response.json(); */ 
+
         setUserData(user);
       } catch (err) {
+        console.log("SavedBooks getUserData error: ", err); 
         console.error(err);
       }
     };  // end getUserData
@@ -94,13 +104,13 @@ const SavedBooks = () => {
                     </Button>
                   </Card.Body>
                 </Card>
-              </Col>
+              </Col>  
             );
           })}
         </Row>
       </Container>
     </>
-  );
-};
+  ); // end return html-react
+}; // end const savedBooks => ... 
 
 export default SavedBooks;

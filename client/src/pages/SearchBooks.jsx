@@ -43,7 +43,7 @@ const SearchBooks = ( ) => {
 
   let username = "MJS"; 
   if (good) {
-    username = "MJS"; // data.me.username;
+    username = data.me.username;
   } else {
     console.log("Search Books query GET_USER returned no data: ", data); 
     console.log("Setting username to MJS"); 
