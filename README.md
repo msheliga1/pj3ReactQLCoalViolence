@@ -170,7 +170,7 @@ CLIENT
         Able to login. Super duper awesome great. 
     Goal: Add Book. 
         Once Logged in can search for books. Get addBook button with each book found. 
-    Goal: Save Boook. 
+    Goal: Save Boook (SearchBooks.jsx handler)
         Code from addComment Act 26 varies more than other code.  
         Able to gather together expected username and book values. 
         Get a 400 error.  Might be because hardwired username to MJS. 
@@ -185,7 +185,27 @@ CLIENT
         Noted authMiddleware msgs not displaying.
         Eventually listened to MERN Day 3 - Act 26. Must add middleware to server. 
         Even though added to "req" (ie req.user = stuff), it shows up as resolver's context arg. 
-        
+        Fooled around with GET_ME. Was able to get it to work, and get username from it. 
+        Then passed username to SAVE_BOOK.  Finally works. 
+    Goal: Show SavedBooks (SavedBooks.jsx)      
+        Directions confusing, but basically do saem thing as other tasks. 
+        In SavedBooks.jsx, get rid of old REST call, and associated req-response code. 
+        Added GET_ME query. Worked but no savedBooks array as part of data. 
+        Hated to change GET_ME query (prints limited data well.)
+        Tried feeding username to GET_USER query. 
+            Problem with const {loading, data} syntax in multiple calls. 
+            Eventually discovered if you "destructor" using above syntax variables names must 
+                be same as field names. Hence 2 calls (GET_ME, GET_USER) using same syntax will fail.
+                Tried using let (loading, data). Did not seem to help. 
+            Work aroound (unused). const newName = query(GET_USER ...). Then 
+                data2 = newName.data, loading2 = newName.loading.  This works. 
+        WorkAround: Created a GET_ME_ALL graphQL query that returns all data including savedBooks array. 
+        Works. Great.
+    Goal: Correct Bug that Save Books screen wont load immediately after logging in. 
+        Does work after login followed by search. 
+        Does work after back and selecting Saved Books.
+    Goal: RemoveBook (SavedBooks.jsx)
+            
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
@@ -289,7 +309,7 @@ Additionally, you’ll need to complete the following tasks in each of these fro
     SignupForm.jsx: Replace addUser() functionality from the API file with ADD_USER mutation functionality.  
     LoginForm.jsx: Replace the loginUser() functionality from the API file with LOGIN_USER mutation functionality.  
 
-    SearchBooks.jsx:
+    SearchBooks.jsx:  
         Use the Apollo useMutation() Hook to execute the SAVE_BOOK mutation in the handleSaveBook() function instead of the saveBook() function imported from the API file.
         Make sure you keep the logic for saving the book's ID to state in the try...catch block!
     SavedBooks.jsx:

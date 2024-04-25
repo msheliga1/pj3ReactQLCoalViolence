@@ -16,6 +16,7 @@ const SavedBooks = () => {
   const [userData, setUserData] = useState({});  // here is the user variable
 
   const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  
+
   console.log("SavedBooks GET_ME_ALL returned data ", data); 
   if (!data) { 
     console.log("SavedBooks userQuery(GET_ME_ALL) no data: ", data); 
@@ -37,10 +38,22 @@ const SavedBooks = () => {
   
   const user = userMe; 
 
-  // This seems to give "More hooks than previous render (even after rebuild and server restart)
-  // But the seems to work wihtout the follwoing 2nd hook. 
-  /* const justMe = useQuery(GET_ME, { variables: {  }, });  // justMe has loading and data
-  console.log("SavedBooks GET_ME returned data ", justMe); */
+  // This occassionally gives "More hooks than previous render (even after rebuild and server restart)
+  // But the seems work sometimes. MJS 4.25.24
+  // Problem seems to occur after logging out and logging back in.  
+  const justMe = useQuery(GET_ME, { variables: {  }, });  // justMe has loading and data fields
+  console.log("SavedBooks GET_ME returned ", justMe); 
+  const data3 = justMe.data; 
+  console.log("SavedBooks GET_ME returned data ", data3); 
+  const us3 = data3.me; 
+  console.log("SavedBooks GET_ME returned data.me ", us3); 
+
+  // This seems to work. MJS 4.25.24 
+  /* const getMeAll = useQuery(GET_ME_ALL, { variables: { }, });  
+  console.log("SavedBooks getMeAll = useQuery(...) is ", getMeAll); 
+  const loading2 = getMeAll.loading;
+  const data2 = getMeAll.data;   
+  console.log("SavedBooks getMeAll data  ", data2);  */ 
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
