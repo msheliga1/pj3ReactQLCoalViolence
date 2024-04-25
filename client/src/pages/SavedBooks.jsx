@@ -7,7 +7,7 @@ import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useQuery } from '@apollo/client';
-import { GET_ME } from '../utils/queries'; 
+import { GET_ME, GET_ME_ALL } from '../utils/queries'; 
 
 // Remove the useEffect() Hook that sets the state for UserData.
 // Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
@@ -15,27 +15,32 @@ const SavedBooks = () => {
   console.log("Staring SavedBooks ..."); 
   const [userData, setUserData] = useState({});  // here is the user variable
 
-  const { loading, data } = useQuery(GET_ME, { variables: { }, });  
-  console.log("SavedBooks GET_ME returned data ", data); 
+  const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  
+  console.log("SavedBooks GET_ME_ALL returned data ", data); 
   if (!data) { 
-    console.log("SavedBooks userQuery(GET_ME) no data: ", data); 
+    console.log("SavedBooks userQuery(GET_ME_ALL) no data: ", data); 
     return false; 
   }
   if (!data.me) { 
-    console.log("SavedBooks userQuery(GET_ME) no data.me: ", data.me); 
+    console.log("SavedBooks userQuery(GET_ME_ALL) no data.me: ", data.me); 
     return false; 
   }
   if (!data.me.username) { 
-    console.log("SavedBooks userQuery(GET_ME) no data.me.username: ", data.me.username); 
+    console.log("SavedBooks userQuery(GET_ME_ALL) no data.me.username: ", data.me.username); 
     return false; 
   }
   let userMe = data.me; 
-  userMe = { ...userMe, savedBooks:[]} ; 
-  console.log("Saved books. user from data.me: ", userMe); 
-  console.log("Saved books. user from data.me.username: ", userMe.username); 
-
+  // userMe = { ...userMe, savedBooks:[]} ; 
+  console.log("Saved books. user from GET_ME_ALL data.me: ", userMe); 
+  console.log("Saved books. user from GET_ME_ALL data.me.username: ", userMe.username); 
+  console.log("Saved books. user from GET_ME_ALL data.me.savedBooks.length: ", userMe.savedBooks.length); 
+  
   const user = userMe; 
 
+  // This seems to give "More hooks than previous render (even after rebuild and server restart)
+  // But the seems to work wihtout the follwoing 2nd hook. 
+  /* const justMe = useQuery(GET_ME, { variables: {  }, });  // justMe has loading and data
+  console.log("SavedBooks GET_ME returned data ", justMe); */
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;

@@ -3,19 +3,54 @@
 // Most of the following can be copied and pasted from GQL. 
 import { gql } from '@apollo/client';
 
-export const QUERY_USER = gql`
-  query user($username: String!) {
-    user(username: $username) {
-      _id
-      username
-      email
-      thoughts {
-        _id
-        thoughtText
-        createdAt
-      }
+// MJS 4.22.24 - 
+// Note no books for GEt_ME. Too long to print. 
+export const GET_ME = gql`
+query me {
+  me {
+    _id
+    email
+    username
+  }
+}
+`;
+
+// Get me, including all data. ie. embedded savedBooks
+export const GET_ME_ALL = gql`
+query me {
+  me {
+    _id
+    email
+    username
+    savedBooks {
+      title
+      bookId
+      authors
+      description
+      image
+      link
     }
   }
+}
+`;
+
+// Use the username to get all info including embedded savedBooks array.
+export const GET_USER = gql`
+query getUser($username: String!) {
+  user(username: $username) {
+    _id
+    username
+    email
+    savedBooks {
+      title
+      bookId
+      authors
+      description
+      image
+      link
+    }
+  }
+}
 `;
 
 export const QUERY_THOUGHTS = gql`
@@ -62,13 +97,3 @@ export const QUERY_ME = gql`
   }
 `;
 
-// MJS 4.22.24 
-export const GET_ME = gql`
-query me {
-  me {
-    _id
-    email
-    username
-  }
-}
-`;
