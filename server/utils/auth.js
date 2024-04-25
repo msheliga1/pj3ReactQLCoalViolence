@@ -1,4 +1,4 @@
-// MJS 4.18.24 - File from starter code. Words with REST api. 
+// MJS 4.18.24 - SERVER File from starter code. Words with REST api. 
 // Need to mod to use with GraphQL.  NOT part of Act 28-MP. Used Act 24 jwt. 
 // Next line from Act 21-24. server/util/auth. 
 const { GraphQLError } = require('graphql');  // mod not found err
@@ -12,19 +12,22 @@ module.exports = {
   // function for our authenticated routes. From starter code. 
   // Got this from Act 26. Graph QL (non rest) version. 
   // We also need to modify client/src/utils/auth (possibly) and App.js. 
+  // Note that a req is passed in as well as returned. The returned, possibly moded req becomes 
+  // the "context" in resolver methods.  Very confusing, but this is how it works. 
   authMiddleware: function ({ req }) {
     console.log('MJS: Starting authMiddleware GQL version');
     let token = req.body.token || req.query.token || req.headers.authorization;
-    if (req.headers.authorization) {
+    if (req.headers.authorization) {  // get rid of word Bearer
       token = token.split(' ').pop().trim();
     }
     if (!token) {
       console.log("No token found in AuthMiddleware (GQL version)"); 
       return req;
     }
+    console.log("SERVER auth.js authMiddleware found token: ", token); 
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
+      req.user = data;  // add user to req (which is returned) => bcomes context for resolvers s
     } catch {
       console.log('MJS: Invalid token');
     }

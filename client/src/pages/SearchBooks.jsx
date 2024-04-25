@@ -10,12 +10,12 @@ import { searchGoogleBooks } from '../utils/API';  // likely need to search Goog
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 // next 3 lines from commentForm26 
 import { Link } from 'react-router-dom';
-// import { useQuery, useMutation } from '@apollo/client';
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+// import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 import { GET_ME } from '../utils/queries';
 
-const SearchBooks = ( username ) => { 
+const SearchBooks = ( ) => { 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
@@ -24,8 +24,32 @@ const SearchBooks = ( username ) => {
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
   // Added next line for GraphQL. Basically convert SAVE_BOOK graphQL into saveBook method. 
   const [saveBook, { error }] = useMutation(SAVE_BOOK); // must be outside handleForm promise
-  // Added next line for GraphQL. Basically find out who is logged in. 
-  // const [getMe, { errorQ }] = useQuery(GET_ME); // must be outside handleForm promise
+  // Sample from SingleThough26 
+  // const { loading, data } = useQuery(QUERY_SINGLE_THOUGHT, { variables: { thoughtId: thoughtId }, });
+  // Added next line for GraphQL. Basically find out who is logged in. // must be outside handleForm promise
+  // God only knows why this works with "data" but not "dataMe". 
+  const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
+  console.log("Searchbook GET_ME returned data ", data); 
+
+  let good = false; 
+  if (data) {
+    if (data.me) {
+      if (data.me.username) {
+        console.log("SearchBooks GET_ME result contains data.me.username"); 
+        good = true;
+      }
+    }
+  }
+
+  let username = "MJS"; 
+  if (good) {
+    username = "MJS"; // data.me.username;
+  } else {
+    console.log("Search Books query GET_USER returned no data: ", data); 
+    console.log("Setting username to MJS"); 
+  } 
+
+  console.log("Searchbook GET_ME returned usernamme ", username);  // works with data
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -78,15 +102,12 @@ const SearchBooks = ( username ) => {
       //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, },
       // });
       // setCommentText('');
-
-      // below 3 lines from REST starter code.
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-      const params = { username: "MJS", ...bookToSave}; 
-      console.log("SearchBooks.jsx handleSaveBook saving book using ", params); 
+      // Next line from REST starter code.
+      // if (!response.ok) { throw new Error('something went wrong!'); }
+      const vars = { username: username, ...bookToSave}; 
+      console.log("SearchBooks.jsx handleSaveBook saving book using ", vars); 
       //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
-      const { data } = await saveBook({variables: { username: "MJS", ...bookToSave },});
+      const { data } = await saveBook({variables: vars,});
       console.log("Saved book. Returned data: ", data); 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);

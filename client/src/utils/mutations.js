@@ -4,6 +4,8 @@ import { gql } from '@apollo/client';
 // SAVE_BOOK will execute the saveBook mutation.
 // REMOVE_BOOK will execute the removeBook mutation.
 
+
+// Note no email returned in Act26
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -11,12 +13,14 @@ export const LOGIN_USER = gql`
       user {
         _id
         username
+        email
       }
     }
   }
 `;
 
 // Changed name from ADD_USER to ADD_USER2 since SignUpForm threw ADD_USER not a function error. 
+// Note no email returned in Act 26
 export const ADD_USER2 = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
@@ -24,6 +28,7 @@ export const ADD_USER2 = gql`
       user {
         _id
         username
+        email
       }
     }
   }

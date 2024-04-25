@@ -18,10 +18,14 @@ const httpLink = createHttpLink({
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
+// This is called by new ApolloClient (which is below). 
 const authLink = setContext((_, { headers }) => {
+  console.log("App.jsx setContext starting ... "); 
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
   // return the headers to the context so httpLink can read them
+  console.log("App.jsx setContext token: ", token); 
+  console.log("App.jsx setContext headers: ", headers); 
   return {
     headers: {
       ...headers,
@@ -30,11 +34,13 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
+// http Link likely /graphql 
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
-  link: authLink.concat(httpLink),
+  link: authLink.concat(httpLink), 
   cache: new InMemoryCache(),
 });
+// console.log("App.jsx Client link ", client);  /// doesnt print 
 
 // Got rid of Header and Footer from Act21-26. Replaced Header with Navbar 
 function App() {

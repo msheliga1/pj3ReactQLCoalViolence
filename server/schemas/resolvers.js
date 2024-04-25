@@ -1,25 +1,27 @@
 // MJS 4.18.24 - From MERN Act 21-24 jwt. 
-// Example of user that can have manhy books. 
-// Not use of Authenticotor error in utils/auth, which replaces 
+// Example of user that can have many books. 
+// Note use of Authenticotor error in utils/auth, which replaces 
 // REST authMiddleware method. 
 const { User, Book } = require('../models');
-
 const { signToken, AuthenticationError } = require('../utils/auth');
-
 const { ObjectId } = require('mongodb'); // per stack ovdrflow
 
 const resolvers = {
   // -------------- Queries --------------
-  // me: Which returns a User type.
+  // me: Which returns a User type (no books).
   // users: Used for debgging.
   // user: Used for debgging.
   // userById: for debugging.  Could not get to work. Arghhh. 
   Query: {
     // Moded from Act21-26. MJS need args here before context, which is the 3rd argument
-    // Me returns the logged in user via findOne(contest.user._id)
+    // Me returns the logged in user via findOne(context.user._id)
     me: async (parent, args, context) => {
-      console.log("Starting me query with context.user", context.user); 
+      // logs here will show up in the server 
+      console.log("Resolvers.js: Starting me query ... "); 
+      console.log("Resolver.js me query args", args); 
+      if (!context) {throw new AuthenticationError('Context not found in resolver me'); } 
       if (context.user) {
+        console.log("Starting me query with context.user", context.user); 
         return User.findOne({ _id: context.user._id });
       }
       console.log("Throwing me query not logged in AuthenticatonError ... ");
@@ -69,11 +71,11 @@ const resolvers = {
       if (!user) {
         throw AuthenticationError;
       }
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);  // from models/User.js which uses bcrypt
       if (!correctPw) {
         throw AuthenticationError;
       }
-      const token = signToken(user);
+      const token = signToken(user);  // from server utils/auth.js
       return { token, user };
     },  // end login 
     addUser: async (parent, { username, email, password }) => {
@@ -84,24 +86,28 @@ const resolvers = {
     }, // end adduser 
     // This mimics add comment which was embedded in thoughts-book, but cant get userID to work. 
     // Also cant get findById instead of findOne to work.  So passing in username insteaed. 
-    saveBook: async (parent, { username, bookId, title, description, authors, image, link  }) => {
-      console.log("Saving book from user name ", username, " with gBookId ", bookId, " ", title); 
+    // could add context here.  Get username from it. 
+    // saveBook: async (parent, { username, bookId, title, description, authors, image, link  }) => {
+    saveBook: async (parent, { username, bookId, title, description, authors, image, link }, context) => {
+      console.log("Resolver Saving book from user name ", username, " with gBookId ", bookId, " ", title); 
+      if (!context) { console.log("SaveBook no context: ", context); }
+      console.log("Resolver SaveBook context.user", context.user); 
       const origUser = await User.findOne({ username });
-      console.log("User from findOne ", origUser);  // returns correct value
+      console.log("Resolver saveBook User from findOne ", origUser.username, origUser.email, origUser.savedBooks.length);  // returns correct value
       const user = await User.findOneAndUpdate(
         { username: username }, 
         // Note savedBooks, not just books !!!! - ARgghh 
         { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
         { new: true, runValidators: true, }
       );
-      console.log("User from findOneAndUpdate ", user);  // returns empty books array
+      console.log("resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
       return user; 
     },  // end AddBook  
     // This mimics add comment which was embedded in thoughts-book. Does NOT work 4.22.24 
     saveBookById: async (parent, { userId, bookId, title, description, authors, image, link  }) => {
           console.log("Saving book from userId ", userId, " with gBookId ", bookId, " ", title); 
           const origUser = await User.findOne({ userId });
-          console.log("User from findOne ", origUser);  // returns null 
+          console.log("saveBookById User from findOne ", origUser.username);  // returns null 
           return User.findOneAndUpdate(
             { _id: userId },
             { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
@@ -112,14 +118,14 @@ const resolvers = {
     removeBook: async (parent, { username, bookId }) => {
       console.log("Removing book from username ", username, " with gBookId ", bookId); 
       const origUser = await User.findOne({ username });
-      console.log("User from findOne ", origUser);  // returns null 
+      console.log("removeBook User from findOne ", origUser.username, origUser.email);  // returns null 
       // removeComment method from Book code was  { _id: bookId },
       const user = await User.findOneAndUpdate(
         { username },
         { $pull: { savedBooks: { bookId: bookId } } },
         { new: true }
       );; 
-      console.log("Revmoved book ... returning updated user."); 
+      console.log("Removed book ... returning updated user."); 
       return user; 
     }, // end removeBook returns User
     // This mimics removeComment which was embedded in old Thought. Does NOT work MJS 4.22.24 

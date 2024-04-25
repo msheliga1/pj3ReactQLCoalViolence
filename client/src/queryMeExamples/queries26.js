@@ -1,6 +1,3 @@
-// MJS 4.22.24 - client/src/utils/quires.js file. 
-// Includes query_me.  Used Act21-26 as starting point. 
-// Most of the following can be copied and pasted from GQL. 
 import { gql } from '@apollo/client';
 
 export const QUERY_USER = gql`
@@ -47,8 +44,8 @@ export const QUERY_SINGLE_THOUGHT = gql`
 `;
 
 export const QUERY_ME = gql`
-  query meX {
-    meX {
+  query me {
+    me {
       _id
       username
       email
@@ -60,15 +57,4 @@ export const QUERY_ME = gql`
       }
     }
   }
-`;
-
-// MJS 4.22.24 
-export const GET_ME = gql`
-query me {
-  me {
-    _id
-    email
-    username
-  }
-}
 `;
