@@ -4,6 +4,7 @@ const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
+const { authMiddleware } = require('./utils/auth');  // needed for new context GQL middleware
 
 // Uncomment the following code once you have built 
 // the queries and mutations in the client folder
@@ -29,7 +30,9 @@ const startApolloServer = async () => {
   app.use(express.json());
   
   // Uncomment the following code once you have built the queries and mutations in the client folder
-  app.use('/graphql', expressMiddleware(server));
+  // Needs updated for context likley.
+  // app.use('/graphql', expressMiddleware(server));
+  app.use('/graphql', expressMiddleware(server, { context: authMiddleware }) );
 
   // Comment out this code once you have built out queries and mutations in the client folder
   // app.use(routes);
@@ -47,7 +50,7 @@ const startApolloServer = async () => {
 // Uncomment this code once you have built out queries and mutations in the client folder
    db.once('open', () => {
      app.listen(PORT, () => {
-       console.log(`The app should be running for at least npm run develop`);
+       console.log(`The app should be running on port 3000, at least npm run develop`);
        console.log(`API server running on port ${PORT}!`);
        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
      });
