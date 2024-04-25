@@ -6,8 +6,9 @@ import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME, GET_ME_ALL } from '../utils/queries'; 
+import { REMOVE_BOOK } from '../utils/mutations'; 
 
 // Remove the useEffect() Hook that sets the state for UserData.
 // Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
@@ -15,6 +16,7 @@ const SavedBooks = () => {
   console.log("Staring SavedBooks ..."); 
   const [userData, setUserData] = useState({});  // here is the user variable
 
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK); // must be outside handleXXX method
   const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  
 
   console.log("SavedBooks GET_ME_ALL returned data ", data); 
@@ -30,13 +32,11 @@ const SavedBooks = () => {
     console.log("SavedBooks userQuery(GET_ME_ALL) no data.me.username: ", data.me.username); 
     return false; 
   }
-  let userMe = data.me; 
-  // userMe = { ...userMe, savedBooks:[]} ; 
+  const userMe = data.me; 
+  // userMe = { ...userMe, savedBooks:[]} ;  // for testing when GET_ME didnt have savedBooks
   console.log("Saved books. user from GET_ME_ALL data.me: ", userMe); 
   console.log("Saved books. user from GET_ME_ALL data.me.username: ", userMe.username); 
   console.log("Saved books. user from GET_ME_ALL data.me.savedBooks.length: ", userMe.savedBooks.length); 
-  
-  const user = userMe; 
 
   // This occassionally gives "More hooks than previous render (even after rebuild and server restart)
   // But the seems work sometimes. MJS 4.25.24
@@ -72,12 +72,9 @@ const SavedBooks = () => {
         // Error: hooks can only be called inside body of function component.
 
         /* const response = await getMe(token);
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+        if (!response.ok) { throw new Error('something went wrong!');  }
         const user = await response.json(); */ 
-
-        setUserData(user);
+        setUserData(userMe);
       } catch (err) {
         console.log("SavedBooks getUserData error: ", err); 
         console.error(err);
@@ -89,19 +86,29 @@ const SavedBooks = () => {
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
+    console.log("SavedBooks.jsx handleDeleteBook starting ... "); 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
+      console.log("SavedBoooks handleDeleteBook. Could not get token. "); 
       return false;
     }
     try {
-      const response = await deleteBook(bookId, token);
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
+      // const response = await deleteBook(bookId, token);
+      // if (!response.ok) { throw new Error('something went wrong!'); }
+      // const updatedUser = await response.json();
+      const username = userMe.username; 
+      const vars = { username, bookId }; 
+      console.log("SavedBooks handleDeleteBook deleting book using ", vars); // correct
+      const { data } = await removeBook({variables: vars,});
+      console.log("SavedBooks handleDeleteBook saveBook data ", data); 
+      const dataRemoved = data.removeBook;  // this is actually the updated User
+      const booksLeft = dataRemoved.savedBooks.length; 
+      console.log("SavedBooks handleDeleteBook username: ", dataRemoved.username, " savedBookCount ", booksLeft);
+      setUserData(dataRemoved);  // originally updatedUser
+      console.log("SavedBooks handleDeleteBook reset UserData for ", dataRemoved.username);
       // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      removeBookId(bookId); 
+      console.log("SavedBooks handleDeleteBook book removed from local storage ", bookId);
     } catch (err) {
       console.error(err);
     }

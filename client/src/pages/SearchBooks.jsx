@@ -49,7 +49,7 @@ const SearchBooks = ( ) => {
     console.log("Setting username to MJS"); 
   } 
 
-  console.log("Searchbook GET_ME returned usernamme ", username);  // works with data
+  console.log("Searchbook GET_ME returned username ", username);  // works with data
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -99,8 +99,7 @@ const SearchBooks = ( ) => {
       // const response = await saveBook(bookToSave, token);  // old REST method
       // GraphQL method from CommentForm26 
       // const { data } = await addComment({
-      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, },
-      // });
+      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
       // setCommentText('');
       // Next line from REST starter code.
       // if (!response.ok) { throw new Error('something went wrong!'); }
