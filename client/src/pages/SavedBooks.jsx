@@ -7,7 +7,7 @@ import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useQuery } from '@apollo/client';
-import { GET_ME } from '../utils/queires'; 
+import { GET_ME } from '../utils/queries'; 
 
 // Remove the useEffect() Hook that sets the state for UserData.
 // Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
@@ -15,15 +15,30 @@ const SavedBooks = () => {
   console.log("Staring SavedBooks ..."); 
   const [userData, setUserData] = useState({});  // here is the user variable
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
-
-  const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
+  const { loading, data } = useQuery(GET_ME, { variables: { }, });  
   console.log("SavedBooks GET_ME returned data ", data); 
   if (!data) { 
     console.log("SavedBooks userQuery(GET_ME) no data: ", data); 
-    // return false; 
+    return false; 
   }
+  if (!data.me) { 
+    console.log("SavedBooks userQuery(GET_ME) no data.me: ", data.me); 
+    return false; 
+  }
+  if (!data.me.username) { 
+    console.log("SavedBooks userQuery(GET_ME) no data.me.username: ", data.me.username); 
+    return false; 
+  }
+  let userMe = data.me; 
+  userMe = { ...userMe, savedBooks:[]} ; 
+  console.log("Saved books. user from data.me: ", userMe); 
+  console.log("Saved books. user from data.me.username: ", userMe.username); 
+
+  const user = userMe; 
+
+
+  // use this to determine if `useEffect()` hook needs to run again
+  const userDataLength = Object.keys(userData).length;
 
   useEffect(() => {
     const getUserData = async () => {
@@ -35,6 +50,9 @@ const SavedBooks = () => {
           return false;
         }
         console.log("SavedBooks found token: ", token); 
+        // As suspected, cant call useQuery(GET_ME) hook here. 
+        // Error: hooks can only be called inside body of function component.
+
         /* const response = await getMe(token);
         if (!response.ok) {
           throw new Error('something went wrong!');
