@@ -108,7 +108,7 @@ const SearchBooks = ( ) => {
       //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
       const { data } = await saveBook({variables: vars,});
       console.log("Saved book. Returned data: ", data); 
-      // if book successfully saves to user's account, save book id to state
+      // if book successfully saves to user's account, save book id (only) to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);

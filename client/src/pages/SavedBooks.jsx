@@ -13,8 +13,9 @@ import { REMOVE_BOOK } from '../utils/mutations';
 // Remove the useEffect() Hook that sets the state for UserData.
 // Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
 const SavedBooks = () => {
-  console.log("Staring SavedBooks ..."); 
-  const [userData, setUserData] = useState({});  // here is the user variable
+  console.log("Starting SavedBooks ..."); 
+  // it seems that userData is what is displayed in the html 
+  const [userData, setUserData] = useState({});  // here is the user localStorage variable
 
   const [removeBook, { error }] = useMutation(REMOVE_BOOK); // must be outside handleXXX method
   const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  

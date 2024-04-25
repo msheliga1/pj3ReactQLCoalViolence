@@ -9,6 +9,7 @@ Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks
 Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git  
 (Heroku deployment requires paid mongo host. Render wasnt working for many folks.) 
 (Andrew indicated alse NEED MongoDB Atlas which is also some type of hosting site.)
+Link to Render-Atlas42 Deployment Help: https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view --> 
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->  
 <!-- Link to Heroku: https://uri-hw-19-jate-idb-pwa-9db53dc82bbb.herokuapp.com/   --> 
@@ -78,8 +79,8 @@ Modify a book search app from REST to GraphQL using MERN-react and web token sec
         Found dev, start, build, lint, preview script commands in package.json. 
         Only react, vite and es-lint packages. No back-end. No express, web-pack, mongoose, etc. 
 
-    Attempt to get code running (index.html page display in this case.)
-    --------------------------------------------------------------------
+Attempt to get code running (index.html page display in this case.)
+--------------------------------------------------------------------
     File Structure: 
         Has client and Server folders. Root, client and server have pjs. 
         Root does NOT have index.html.
@@ -201,18 +202,41 @@ CLIENT
                 data2 = newName.data, loading2 = newName.loading.  This works. 
         WorkAround: Created a GET_ME_ALL graphQL query that returns all data including savedBooks array. 
         Works. Great.
-    Goal: Correct Bug that Save Books screen wont load immediately after logging in. 
-        Does work after login followed by search. 
-        Does work after back and selecting Saved Books.
     Goal: RemoveBook (SavedBooks.jsx)
-            
+        Got this to work fairly easily, since very similar to save book. 
+    Goal: Correct Bug that Save Books screen wont load immediately after logging in. 
+        Also happens with Sign-up. 
+        Does work after login followed by search. 
+        Does work after login, search and saveBook. 
+        Does work after back button and re-selecting Saved Books.
+        Tried console.logs in LoginForm.jsx
+            Since LoginForm.jsx calls client AuthService.login routine which calls 
+            window.location.assign('/'); you cant see console.logs. Must use return or comment out 
+            above line. 
+        Saved user to userData hook.  This did not help. 
+            CANT see hookData in DevTools->Application. Can see localStorage, but this is a hook not localStorage.
+            Need extension to use React DevTools 
+            Hard time find Apollo DeeTools once extension downloaded. 
+        Also saved bookData to localStorage and/or hook.  Did not help. 
+        Talked with Andrew. He indicated that this "bug" is almost for sure a cache issue, that it is not part 
+            of the project and to ignore it.  I was using Chrome precisely because it has an "Empty Cache 
+            and Hard Reload" option.  I had tried this *before* logging in. It did not seem to work.  I 
+            tried in *after* logging in and it did not work. 
+        Nonetheless, per the resident expernt Andrew I should not worry about this. 
+    Goal: Understand why books sometimes display as "already added to list" for new users.
+        Andrew indicated that this is a bug in the original code.  The database does NOT match the 
+        local storage.  The DB has records for each user. Local storage just has one list of books 
+        that have been saved for *any* user. 
+        Andrew once again indicated that this is not the heart of the project. 
+    All issues closed.  On to deployment with Render. 
 
     Commit and push files back to gitHub/branch. (For multi-programming: Issue pull request, approve, merge).  
     Deploy code (Settings...CodeAndAnimation->Pages on left, GitHub Pages->Branch->main, save)  
         - Deployed code name always msheliga1/github.io/RepoName !! 
-        = Used Netlify.  Direction in act 20-27 somewhat shakey, but got it to run. Yipeeee!  
+        = First tried deploying with Heroku. There MongoDB is behind a paywall. 
+        = Used Render - VERY long process. 
     Make Sure it Works    
-    Insert Screencastify (Chrome) Video, Heroku, Netify and/or Screenshot X2 of deployment into readme file.  
+    Insert Screencastify (Chrome) Video, Heroku, Render, Netify and/or Screenshot X2 of deployment into readme file.  
   
 ## Tools and Technologies Used   
     Github - Branches not needed, but could use.    

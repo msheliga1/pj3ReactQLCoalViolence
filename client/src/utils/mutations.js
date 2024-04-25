@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 // SAVE_BOOK will execute the saveBook mutation.
 // REMOVE_BOOK will execute the removeBook mutation.
 
-// Note no email returned in Act26
+// Note no email returned in Act26, nor savedBooks or similar
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -13,6 +13,14 @@ export const LOGIN_USER = gql`
         _id
         username
         email
+        savedBooks {
+          bookId
+          title
+          description
+          authors
+          image
+          link
+        }
       }
     }
   }
