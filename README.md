@@ -8,7 +8,7 @@ code) and Act 24.
 Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks    
 Link to Render Deployment: https://hw21urigraphqlbooks-1.onrender.com/  
 <!-- Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git   -->  
-(Heroku deployment requires paid mongo host. Render wasnt working for many folks.)  
+(Heroku deployment requires paid mongo host. Render takes a long time but now works.)  
 (Andrew indicated alse NEED MongoDB Atlas which is also some type of hosting site.)  
 Link to Render-Atlas Deployment Help: https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas   
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view -->  
