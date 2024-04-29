@@ -22,7 +22,7 @@ STATUS:
 ## Repos Used
 Cloned hw21. GraphQL, Mern. User->
 HW  21.    User - Books 
-Act 21-04. (Unsolved) School-Many Class-Professor (Resolvers.js get .populate x2)
+Act 21-04. (Unsolved) School[Classes]-Class-Professor (Resolvers.js get .populate x2)
 Act 21-06. School-Class<->Professor
 Act 21-08. School-Class<->Professor (GetClass by ID)
 Act 21-10. School-Class<->Professor (plus addClass, updateClass)
@@ -107,12 +107,9 @@ Attempt to get code running (index.html page display in this case.)
         src folder has most stuff  
             main.jsx (main entry pt) and App.jsx  
             assets - just react.svg  
-            components  
-                Login.jsx, NavBar.jsx and SignupForm.jsx.  
-            pages folder  
-                SavedBooks.jsx, SearchBooks.jsx   
-            utils folder  
-                API.js, auth.js, localStorage.js  
+            components - Login.jsx, NavBar.jsx and SignupForm.jsx.  
+            pages folder - SavedBooks.jsx, SearchBooks.jsx   
+            utils folder - API.js, auth.js, localStorage.js  
         Server  
             config - just DB config  
             controllers - user-controller.js  
@@ -121,18 +118,9 @@ Attempt to get code running (index.html page display in this case.)
     NPM: "npm init --y" BEFORE "npm install" to avoide ENOENT err.  
         "npm install" (or "nmp i")  
         Root "npm run build" builds client. - seemed to work. Created a dist folder with index.htmls  
-        Root "mpm run develop" starts 2 servers, including nodemon server.  
-    Testing: Was able to get app working at 3000. Searched and Saved.  
-        From server, seems like port 3001.  Has /api in routes/index.js.   
-            Has /users in routes/api/index.js.  
-            router.route('/').post(createUser).put(authMiddleware, saveBook);  
-            ... route('/login').post(login);  
-            ... route('/me').get(authMiddleware, getSingleUser);  
-            ... route('/books/:bookId').delete(authMiddleware, deleteBook);  
-            3001/api/users/me give a "You have no token msg."  
-                -> Was able to change this in server/utils/auth.js authMiddleware method.  Great!!   
-            3001/ anything else claims no file client\build\index.html.  
-                -> The build also complains about this.  
+        Root "mpm run develop" starts 2 servers (app on 3000, GQL on 3001), including nodemon server.  
+    Testing: Was able to get app working at 3000. Login, Searched, Saved and Deleted.  
+        Change "npm run develop" to "npm run dev" 
     SERVER - GraphQL  
         Got GraphQL users working.  Great 1st step.  
         Got addUser working.  Great next step.  
