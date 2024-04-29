@@ -16,8 +16,25 @@ Link to Render-Atlas Deployment Help: https://coding-boot-camp.github.io/full-st
 [Link to Acceptance Criteria ](#acceptance-criteria)   
 
 ## Project Goals      
-Modify a book search app from REST to GraphQL using MERN-react and web token security.  
-STATUS: The app has been fully modified from REST to GraphQL and works the same as before.    
+Create a historical coal camp violence app using MERN-react, GraphQL and web token security.  
+STATUS:   
+
+## Repos Used
+Cloned hw21. GraphQL, Mern. User->
+HW  21.    User - Books 
+Act 21-04. (Unsolved) School-Many Class-Professor (Resolvers.js get .populate x2)
+Act 21-06. School-Class<->Professor
+Act 21-08. School-Class<->Professor (GetClass by ID)
+Act 21-10. School-Class<->Professor (plus addClass, updateClass)
+Act 21-12. Thought [Comment] -> Comment (Thoughts, ThoughtById, Add-Remove Thoughts/Comments)
+Act 21-14. Same as 21-12. 
+Act 21-16. Same as 21-12.  (Click->Page Redirect)
+Act 21-18. Same  "      .  (client->Thought Form)
+Act 21-20. Same  "      .  (Client->ThoughtList, Thought, Add Thought-Comment)
+Act 21-22. User->Thought->Comment (thoughtAuthor).  JWT (resolvers .populate x1)
+Act 21-24. User->Thought->Comment (thoughtAuthor).  JWT-Auth-Login (resolvers .populate x1)
+Act 21-26  Same "                                .  Plus me method (context)
+Act 21-28. Tech-Matchup. 
 
 ========================================================   
 ## Technical Project Details    
