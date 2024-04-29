@@ -1,19 +1,17 @@
 # Book Search Engine with MERN and GraphQl
-uri bootcamp HW 21 - Book Search REST => GraphQL with React, web token security - MJS 4.15.24    
+uri bootcamp Project 3 - Coal Violence MERN, React and GraphQL, web token security - MJS 4.27.24    
 Michael Sheliga - This repo is for the University of Richmond (URI) coding bootcamp.  
-Starter Code: From coding-boot-camp/solid-brocolli. Also used Act 28 MP (beware very poor   
-code) and Act 24.  
+Starter Code: From hw21 GBook Search using MERN, GraphQL and web tokens security. 
+Also used Act 28 MP (beware very poor code) and Act 24.  
 
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
-Link to GitHub Repo: https://github.com/msheliga1/hw21uriGraphQLBooks    
-Link to Render Deployment: https://hw21urigraphqlbooks-1.onrender.com/  
-<!-- Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git   -->  
-(Heroku deployment requires paid mongo host. Render takes a long time but now works.)  
-(Andrew indicated alse NEED MongoDB Atlas which is also some type of hosting site.)  
+Link to GitHub Repo: https://github.com/msheliga1/pj3ReactQLCoalViolence 
+Link to Render-Atlas Deployment: https://hw21urigraphqlbooks-1.onrender.com/   XX 
+(Need MongoDB Atlas site which is also some type of hosting site.)  
 Link to Render-Atlas Deployment Help: https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas   
+<!-- Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git   -->  
 <!-- Link to Video on Google Drive: https://drive.google.com/file/d/1jcrSLjZJ3evW8Ss2wuIrIy4JPc4SDk_M/view -->  
 <!---  Link to deployed github.io site. https://msheliga1.github.io/uriHW9NodeReadmeGen --->   
-<!-- Link to Heroku: https://uri-hw-19-jate-idb-pwa-9db53dc82bbb.herokuapp.com/   -->   
 
 [Link to Acceptance Criteria ](#acceptance-criteria)   
 
