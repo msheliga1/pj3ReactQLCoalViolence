@@ -29,14 +29,18 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
       // throw new AuthenticationError('You need to be logged in!');  // gives AuthenticationError isnt a function. 
     },
+    // ---------- GET ALL -----------
     users: async () => {   // used for testing.  
         return await User.find(); 
     }, 
     books: async () => {   // used for testing.  
       return Book.find(); 
     }, 
-    usersBookPopulate: async () => {  // wont work since books is embedded
-      return User.find().populate('books');
+    usersEmb: async () => {   // used for testing. No populate => embedded or dont display savedBooks 
+      return await User.find(); 
+    }, 
+    usersPopBooks: async () => {  // wont work if books is embedded. Must match typeDef field name. 
+      return User.find().populate('savedBooks');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
@@ -52,7 +56,7 @@ const resolvers = {
       console.log("Get UserById findById ", origUser);  // returns null for {userId}
       return User.findOne({ _id: userId });
     },
-    userBookPopulate: async (parent, { username }) => {  // wont work since books is embedded
+    userPopBooks: async (parent, { username }) => {  // wont work since books is embedded
       return User.findOne({ username }).populate('books');
     },
     /* books: async (parent, { username }) => {
@@ -106,12 +110,11 @@ const resolvers = {
       //         { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, comments },  }, },
       console.log("Resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
       console.log("Resolver saveBook findOneAndUpdate user", user.savedBooks[0]);  
-      return user; 
+      return user; 0
     },  // end saveBook  
 
     // saveBookCreate mimics addBook which used Book(Thought).create. Username passed in for GQL testing.
     createBook: async (parent, { username, bookId, title, description, authors, image, link, }) => {
-    
       console.log("createBook resolver (required): ", username, bookId, title);
       console.log("createBook resolver (desc, auth, img, lnk): ", description, authors, image, link); 
  
@@ -128,9 +131,11 @@ const resolvers = {
         { $addToSet: { savedBooks: book._id } },  
         { new: true, runValidators: true, }
       ); */ 
-      await User.findOneAndUpdate(
-        { username: username }
+      const user = await User.findOneAndUpdate(
+        { username: username }, 
+        { $addToSet: { savedBooks: book._id } }  
       );
+      console.log("Found one and updated user ... ", user); 
       return book; 
     }, // end addBookCreate
     // addThought uses Thought.create and context to get username

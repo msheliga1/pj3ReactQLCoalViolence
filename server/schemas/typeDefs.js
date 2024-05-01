@@ -20,14 +20,14 @@
   //          returns a User type. (Look into creating an input type to handle all of these params!)
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
 
-  // remvoed from User 
-  //     savedBooks: [ID]! 
+
   const typeDefs = `
   type User {
     _id: ID
     username: String! 
     email: String! 
     password: String! 
+    savedBooks: [ID]! 
   }
 
   type Book {
@@ -54,14 +54,15 @@
   }
 
   type Query {
+    me: User
     users: [User]
     books: [Book]
-    usersBookPopulate: [User]
+    usersEmb: [User]
+    usersPopBooks: [User]
     user(username: String!): User
     userById(userId: ID!): User
-    userBookPopulate(username: String!): User
+    userPopBooks(username: String!): User
     book(bookId: ID!): Book
-    me: User
   }
 
   type Mutation {

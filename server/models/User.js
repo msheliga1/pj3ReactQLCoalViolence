@@ -27,13 +27,11 @@ const userSchema = new Schema(
     // set savedBooks to be an array of data that adheres to the bookSchema
     // stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }] from mongoosejs.com/docs/populate.html
     // savedBooks: [bookSchema],
-    // savedBooks: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
+    savedBooks: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
   },
   // set this to use virtual below
   {
-    toJSON: {
-      virtuals: true,
-    },
+    toJSON: { virtuals: true, },
   }
 );
 
