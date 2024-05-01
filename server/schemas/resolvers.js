@@ -31,7 +31,7 @@ const resolvers = {
     },
     // ---------- GET ALL -----------
     users: async () => {   // used for testing.  
-        return await User.find(); 
+        return User.find().populate('savedBooks'); 
     }, 
     books: async () => {   // used for testing.  
       return Book.find(); 
@@ -156,7 +156,16 @@ const resolvers = {
             { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
             { new: true, runValidators: true, }
           );
-        },  // end AddBook
+    },  // end saveBookById
+
+    // remove a created User. Don't worry about created Books for now. Mimic removeThought Act21-26. 
+    // Need this to get rid of "bad" users from DB. 
+    removeUser: async (parent, { userId }) => {
+            const user = await User.findOneAndDelete({ _id: userId, });
+            return user;
+          // throw AuthenticationError;
+    }, // end removeUser (created)
+        
     // This mimics removeComment which was embedded in old Thought
     removeBook: async (parent, { username, bookId }) => {
       console.log("Removing book from username ", username, " with gBookId ", bookId); 
@@ -185,6 +194,7 @@ const resolvers = {
           console.log("Revmoved book ... returning updated user."); 
           return user; 
     }, // end removeBook returns User 
+
     // ------------- Old examples --------------------
     addBookOld: async (parent, { bookText, bookAuthor  }) => {  // old Thought example 
       const book = await Book.create({ bookText, bookAuthor });
@@ -217,7 +227,22 @@ const resolvers = {
         { $pull: { comments: { _id: commentId } } },
         { new: true }
       );
-    },  // end removeComment
+    },  // end removeComment 
+    /* remove a created Thought, and its User ptr
+    removeThought: async (parent, { thoughtId }, context) => {
+      if (context.user) {
+        const thought = await Thought.findOneAndDelete({
+          _id: thoughtId,
+          thoughtAuthor: context.user.username,
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { thoughts: thought._id } }
+        );
+        return thought;
+      }
+      throw AuthenticationError;
+    }, // end removeThought (created) */ 
   },
 };
 
