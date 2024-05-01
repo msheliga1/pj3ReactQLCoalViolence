@@ -121,19 +121,13 @@ const resolvers = {
       const book = await Book.create({ bookId, title, description, authors, image, link, });
       console.log("Created book is ", book); 
  
-      // Andrew: Boook needs reference to user??
-      // User needs list of Books IDs.  Saving entire book is extra-storage issue. 
-      // As long as I have set of book Ids, then .populate will .. 
-      //         { $addToSet: { savedBooks: book } },  - Only need book._id}
-
-      /* await User.findOneAndUpdate(
-        { username: username }, 
-        { $addToSet: { savedBooks: book._id } },  
-        { new: true, runValidators: true, }
-      ); */ 
+      // Andrew:  User needs list of Books IDs.  Saving entire book is extra-storage issue. 
+      // With set of book Ids, then .populate should work. 
+      // { $addToSet: { savedBooks: book._id } }
       const user = await User.findOneAndUpdate(
         { username: username }, 
-        { $addToSet: { savedBooks: book._id } }  
+        { $addToSet: { savedBooks: book._id } }, 
+        { new: true, runValidators: true, } 
       );
       console.log("Found one and updated user ... ", user); 
       return book; 
