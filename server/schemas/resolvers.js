@@ -56,8 +56,8 @@ const resolvers = {
       console.log("Get UserById findById ", origUser);  // returns null for {userId}
       return User.findOne({ _id: userId });
     },
-    userPopBooks: async (parent, { username }) => {  // wont work since books is embedded
-      return User.findOne({ username }).populate('books');
+    userPopBooks: async (parent, { username }) => {  // wont work if books is embedded
+      return User.findOne({ username }).populate('savedBooks');
     },
     /* books: async (parent, { username }) => {
       const params = username ? { username } : {};

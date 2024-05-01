@@ -20,14 +20,15 @@
   //          returns a User type. (Look into creating an input type to handle all of these params!)
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
 
-
+  // When User references savedBooks, this MUST be [Book], similar to Act21-26 which has [Thought] 
+  // even though addThought uses .create and { $addToSet: { thoughts: thought._id } }
   const typeDefs = `
   type User {
     _id: ID
     username: String! 
     email: String! 
     password: String! 
-    savedBooks: [ID]! 
+    savedBooks: [Book]! 
   }
 
   type Book {
