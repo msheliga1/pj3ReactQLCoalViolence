@@ -1,3 +1,5 @@
+// MJS 4.28.24 - User - Incident - Comment DB
+// commentAuthor mmtches User.username. Auto-put in from context. 
 const typeDefs = `
   type User {
     _id: ID

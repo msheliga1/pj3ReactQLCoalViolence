@@ -96,13 +96,10 @@ const SearchBooks = ( ) => {
     }
     try {
       console.log("SearchBooks.jsx handleSaveBook got token ... saving book using token ", token); 
-      // const response = await saveBook(bookToSave, token);  // old REST method
       // GraphQL method from CommentForm26 
       // const { data } = await addComment({
       //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
       // setCommentText('');
-      // Next line from REST starter code.
-      // if (!response.ok) { throw new Error('something went wrong!'); }
       const vars = { username: username, ...bookToSave}; 
       console.log("SearchBooks.jsx handleSaveBook saving book using ", vars); 
       //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
@@ -114,6 +111,35 @@ const SearchBooks = ( ) => {
       console.error(err);
     }
   }; // end handleSaveBook 
+
+  // create function to handle saving a book to our database
+  const handleCreateBook = async (bookId) => {
+    // find the book in `searchedBooks` state by the matching id
+    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    console.log("SearchBooks.jsx handleSaveBook saving for userID ", username); 
+    console.log("SearchBooks.jsx handleSaveBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {
+      return false;
+    }
+    try {
+      console.log("SearchBooks.jsx handleCreateBook got token ... creating book using token ", token); 
+      // GraphQL method from CommentForm26 
+      // const { data } = await addComment({
+      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
+      // setCommentText('');
+      const vars = { username: username, ...bookToSave}; 
+      console.log("SearchBooks.jsx handleSaveBook saving book using ", vars); 
+      //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
+      const { data } = await saveBook({variables: vars,});
+      console.log("Saved book. Returned data: ", data); 
+      // if book successfully saves to user's account, save book id (only) to state
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+    } catch (err) {
+      console.error(err);
+    }
+  }; // end handleCreateBook 
 
   return (
     <>
@@ -169,7 +195,18 @@ const SearchBooks = ( ) => {
                           ? 'This book has already been saved!'
                           : 'Save this Book!'}
                       </Button>
+                    )}                    
+                    {Auth.loggedIn() && (
+                      <Button
+                        disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
+                        className='btn-block btn-info'
+                        onClick={() => handleCreateBook(book.bookId)}>
+                        {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
+                          ? 'This book has already been saved!'
+                          : 'Save this Book!'}
+                      </Button>
                     )}
+
                   </Card.Body>
                 </Card>
               </Col>

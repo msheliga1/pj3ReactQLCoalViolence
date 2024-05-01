@@ -1,6 +1,6 @@
-// MJS 4.18.24 moded Act21-24. Also did this for my Mini Project. 
-// But this one already has a User Type. Thought baiscally becomes Comment, 
-// which was embedded in Thoughts previously in Act 21-24. 
+// MJS 4.28.24 project 3 MERN GraphQL Coal Violence 
+// User-Incident-Comment. commentAuthor mmtches User.username. Auto-put in from context. 
+// MJS 4.18.24 moded Act21-24. 
 
   // New bookID is from googleBooks  
   // part of User     books: [Book] => savedBooks works in GQL 4.28.24 MJS
@@ -20,22 +20,25 @@
   //          returns a User type. (Look into creating an input type to handle all of these params!)
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
 
+  // remvoed from User 
+  //     savedBooks: [ID]! 
   const typeDefs = `
   type User {
     _id: ID
     username: String! 
     email: String! 
     password: String! 
-    savedBooks: [Book]! 
   }
 
   type Book {
+    _id: ID
     bookId: String!  
     title: String!   
     description: String
     authors: [String]! 
     image: String
     link: String
+    comments: [Comment]! 
   } 
 
   type Comment {
@@ -52,6 +55,7 @@
 
   type Query {
     users: [User]
+    books: [Book]
     usersBookPopulate: [User]
     user(username: String!): User
     userById(userId: ID!): User
@@ -65,17 +69,19 @@
     addUser(username: String!, email: String!, password: String!): Auth
     saveBook(     username: String!, bookId: String!, title: String!, description: String, 
                   authors: [String]!, image: String, link: String): User
+    createBook(username: String!, bookId: String!, title: String!, description: String, 
+                  authors: String, image: String, link:String): Book
     saveBookById( userId: ID!, bookId: String!, title: String!, description: String!, 
                   authors: [String]!, image: String, link: String): User
     removeBook(username: String!, bookId: String!): User  
     removeBookById(userId: ID!, bookId: String!): User  
     addBookOld(bookText: String!, bookAuthor: String!): Book 
-    saveBookCreate(bookId: String!, title: String, description: String, authors: String, image: String, link:String): Book
     addComment(bookId: ID!, commentText: String!, commentAuthor: String!): Book
     removeComment(bookId: ID!, commentId: ID!): Book
   }
 `;
 
+//     addThought(thoughtText: String! }: Thought
 // Old exampls 
  
 /* type Book {

@@ -1,8 +1,10 @@
 import { gql } from '@apollo/client';
 // LOGIN_USER will execute the loginUser mutation set up using Apollo Server.
-// ADD_USER will execute the addUser mutation.//
-// SAVE_BOOK will execute the saveBook mutation.
+// ADD_USER will execute the addUser mutation. 
+// SAVE_BOOK will execute the saveBook mutation, with the book embedded in a user. 
+// CREATE_BOOK executes the createBook mutation, with a non-embedded book. 
 // REMOVE_BOOK will execute the removeBook mutation.
+// These methods are imported and used in react .jsx pages such as searchBoooks and SavedBooks. 
 
 // Note no email returned in Act26, nor savedBooks or similar
 export const LOGIN_USER = gql`
@@ -27,7 +29,7 @@ export const LOGIN_USER = gql`
 `;
 
 // Changed name from ADD_USER to ADD_USER2 since SignUpForm threw ADD_USER not a function error. 
-// Note no email returned in Act 26
+// Note no email returned in Act 26. Used by client/src/pages/SearchBooks.jsx 
 export const ADD_USER2 = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
@@ -43,8 +45,27 @@ export const ADD_USER2 = gql`
 
 // MJS 4.23.24. Made description optional since some books dont have it.  Added image and link
 export const SAVE_BOOK = gql`
-mutation SaveBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+mutation saveBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
   saveBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
+    _id
+    email
+    username
+    savedBooks {
+      bookId
+      title
+      description
+      authors
+      image
+      link
+    }
+  }
+}
+`;
+
+// create book and link it to username
+export const CREATE_BOOK = gql`
+mutation createBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+  createBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
     _id
     email
     username

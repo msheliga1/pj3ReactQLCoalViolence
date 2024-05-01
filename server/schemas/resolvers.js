@@ -30,14 +30,19 @@ const resolvers = {
       // throw new AuthenticationError('You need to be logged in!');  // gives AuthenticationError isnt a function. 
     },
     users: async () => {   // used for testing.  
-        return User.find()
-        // return User.find().populate('books');
+        return await User.find(); 
+    }, 
+    books: async () => {   // used for testing.  
+      return Book.find(); 
     }, 
     usersBookPopulate: async () => {  // wont work since books is embedded
       return User.find().populate('books');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
+    },
+    book: async (parent, { bookId }) => {
+      return Book.findOne({ _id: bookId });
     },
     userById: async (parent, { userId }) => {
       // wont work without new.  But case fails for new ObjectId(userId)
@@ -54,9 +59,6 @@ const resolvers = {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
     }, */ 
-    book: async (parent, { bookId }) => {
-      return Book.findOne({ _id: bookId });
-    },
   },
 
   // ---------- Mutatiions --------------
@@ -87,22 +89,64 @@ const resolvers = {
     // This mimics add comment which was embedded in thoughts-book, but cant get userID to work. 
     // Also cant get findById instead of findOne to work.  So passing in username insteaed. 
     // could add context here.  Get username from it. 
-    // saveBook: async (parent, { username, bookId, title, description, authors, image, link  }) => {
+    // Compare this to Act26 which creates a book. 
     saveBook: async (parent, { username, bookId, title, description, authors, image, link }, context) => {
       console.log("Resolver Saving book from user name ", username, " with gBookId ", bookId, " ", title); 
-      if (!context) { console.log("SaveBook no context: ", context); }
+      if (!context) { console.log("SaveBook no context (Expected if run from GQL): ", context); }
       console.log("Resolver SaveBook context.user", context.user); 
       const origUser = await User.findOne({ username });
       console.log("Resolver saveBook User from findOne ", origUser.username, origUser.email, origUser.savedBooks.length);  // returns correct value
+      const comments = [];  // no comments when first adding incident
       const user = await User.findOneAndUpdate(
         { username: username }, 
-        // Note savedBooks, not just books !!!! - ARgghh 
-        { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
+        // Note savedBooks, not just books!! - from addUser "savedBooks":[]
+        { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, "comments":[] },  }, },
         { new: true, runValidators: true, }
       );
-      console.log("resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
+      //         { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, comments },  }, },
+      console.log("Resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
+      console.log("Resolver saveBook findOneAndUpdate user", user.savedBooks[0]);  
       return user; 
-    },  // end AddBook  
+    },  // end saveBook  
+
+    // saveBookCreate mimics addBook which used Book(Thought).create. Username passed in for GQL testing.
+    createBook: async (parent, { username, bookId, title, description, authors, image, link, }) => {
+    
+      console.log("createBook resolver (required): ", username, bookId, title);
+      console.log("createBook resolver (desc, auth, img, lnk): ", description, authors, image, link); 
+ 
+      const book = await Book.create({ bookId, title, description, authors, image, link, });
+      console.log("Created book is ", book); 
+ 
+      // Andrew: Boook needs reference to user??
+      // User needs list of Books IDs.  Saving entire book is extra-storage issue. 
+      // As long as I have set of book Ids, then .populate will .. 
+      //         { $addToSet: { savedBooks: book } },  - Only need book._id}
+
+      /* await User.findOneAndUpdate(
+        { username: username }, 
+        { $addToSet: { savedBooks: book._id } },  
+        { new: true, runValidators: true, }
+      ); */ 
+      await User.findOneAndUpdate(
+        { username: username }
+      );
+      return book; 
+    }, // end addBookCreate
+    // addThought uses Thought.create and context to get username
+    /* addThought: async (parent, { thoughtText }, context) => {
+      if (context.user) {
+        const thought = await Thought.create({thoughtText, thoughtAuthor: context.user.username, });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { thoughts: thought._id } }
+        );
+        return thought;
+      }
+      throw AuthenticationError;
+      ('You need to be logged in!');
+    }, */ 
+
     // This mimics add comment which was embedded in thoughts-book. Does NOT work 4.22.24 
     saveBookById: async (parent, { userId, bookId, title, description, authors, image, link  }) => {
           console.log("Saving book from userId ", userId, " with gBookId ", bookId, " ", title); 
@@ -151,14 +195,6 @@ const resolvers = {
       );
       return book;
     }, // end addBookOld via addThought
-    // saveBookCreate mimics addBook which used Book(Thought).create 
-    saveBookCreate: async (parent, { bookId, title, description, authors, image, link }) => {
-      const book = await Book.create({ bookId, title, description, authors, image, link  });
-      await User.findOneAndUpdate(
-        { $addToSet: { books: book } }
-      );
-      return book; 
-    }, // end addBookCreate
     /* 
     removeBookOld: async (parent, { bookId }) => {
       return Book.findOneAndDelete({ _id: bookId });
