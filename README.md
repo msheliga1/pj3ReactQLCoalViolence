@@ -124,25 +124,17 @@ Attempt to get code running (index.html page display in this case.)
     SERVER - GraphQL  
         Got GraphQL users working.  Great 1st step.  
         Got addUser working.  Great next step.  
-        Figured out that books array seems to be "embedded" in Users.  
-            - Similar to how Comments were embedded in Thoughts (Act 24?)   
         Added saveBook  
-        Added removeBook   
-            - HORRIBLE error. Clear I was missing a : before STring, but didnt' even tell me what file!  
-                Not sure if file typeDefs or resolvers. But type defs has 99% of the String values.  
-                Eventually able to change line numbers in error msg (at bottom) by adding blank line.s  
-                Blanks must be added inside back-ticks. Finally found the missing :.   
-                Incredible how hard this is to find even when you know it must be before String.    
-        Tried getUserById   
-            - All 3 of these need to use getById, instead of getOnexxx.  I couldn't get this working. I'm  
-                almost sure I tried this on a "new" user whose "_ID" is an ID, not a string. Waht a mess.  
-                Noted that this code seesm to work in Act21-24. What a PITA>   
-        Tried saveBook (by username).   
-            - Could not get to update books arrays.  Arghhh.  
-            - Fixed: "books" to "savedBooks".  Now works.  
-            - Duplicates allowed issue:   
-        Tried removeBook (by username): Works   
-        Tried getById - importing ObjectId and new ObjectId(stringValue). Complained cant cast.  
+        Figured out that books array seems to be "embedded" in Users.  
+            - Similar to how Comments were embedded in Thoughts (Act 24?)  
+            - Changed this in models and typeDefs. 
+            - Created comments (embedded) in Books. 
+            - Deleted ALL old users that had embedded Books.  
+            - Noted that savedBooks [] must be [Books] and NOT [ID]
+            - Got .populate to work.     
+            - Working methods include add user, getAllUsers, getUser and add Book. 
+        Goal: Add new page for my books. 
+
 CLIENT    
     Should run at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!).  
         App at port 3000. GraphQL at 3001.  
