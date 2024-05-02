@@ -27,7 +27,13 @@ const AppNavbar = () => {
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
-                    See Your Books
+                    Favorites
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/mine'>
+                    Your Incidents
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/new'>
+                    Create New Incident
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>
