@@ -5,7 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.jsx'
 import SearchBooks from './pages/SearchBooks'
 import SavedBooks from './pages/SavedBooks'
+import MyFights from './pages/MyFights'
+import NewFight from './pages/NewFight'
 
+// Notice that SearchBooks is the index - ie. the / route. 
 const router = createBrowserRouter([
   {
     path: '/',
@@ -18,6 +21,12 @@ const router = createBrowserRouter([
       }, {
         path: '/saved',
         element: <SavedBooks />
+      }, {
+        path: '/mine',
+        element: <MyFights />
+      }, {
+        path: '/new',
+        element: <NewFight />
       }
     ]
   }

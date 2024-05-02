@@ -15,7 +15,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 import { GET_ME } from '../utils/queries';
 
-const SearchBooks = ( ) => { 
+const NewFight = ( ) => { 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
@@ -218,4 +218,4 @@ const SearchBooks = ( ) => {
   );
 };
 
-export default SearchBooks;
+export default NewFight;
