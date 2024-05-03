@@ -6,14 +6,13 @@ const userSchema = require('./User');
 
 // This is a subdocument schema, it won't become its own model but 
 // we'll use it as the schema for the User's `savedBooks` array in User.js
-// Comment via 21-24 Thought
+// Comment via 21-24 Thought. Got rid of required for description. 
 const bookSchema = new Schema({
   authors: [
     { type: String, },
   ],
   description: {
     type: String,
-    required: true,
   },
   // saved book id from GoogleBooks
   bookId: {

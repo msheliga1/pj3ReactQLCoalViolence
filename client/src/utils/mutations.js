@@ -44,6 +44,7 @@ export const ADD_USER2 = gql`
 `;
 
 // MJS 4.23.24. Made description optional since some books dont have it.  Added image and link
+// This is an EMBEDDED route that returns the user who embeds the book.  No create used. 
 export const SAVE_BOOK = gql`
 mutation saveBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
   saveBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
@@ -62,20 +63,34 @@ mutation saveBook($username: String!, $bookId: String!, $title: String!, $author
 }
 `;
 
-// create book and link it to username
+// create book. Also create reference from user to book.  This only returns a book, not the user, 
+// so no email or username permitted in results.  If you stick email or username in results get a 400 not-found err 
+// when calling this routine. 
 export const CREATE_BOOK = gql`
-mutation createBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+mutation CreateBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
   createBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
     _id
-    email
-    username
-    savedBooks {
-      bookId
-      title
-      description
-      authors
-      image
-      link
+    bookId
+    title
+  }
+}
+`;
+
+export const CREATE_BOOK_LONG = gql`
+mutation CreateBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+  createBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
+    _id
+    bookId
+    title
+    description
+    authors
+    image
+    link
+    comments {
+      _id
+      commentText
+      commentAuthor
+      createdAt
     }
   }
 }

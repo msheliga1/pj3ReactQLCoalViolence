@@ -110,7 +110,7 @@ const resolvers = {
       //         { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, comments },  }, },
       console.log("Resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
       console.log("Resolver saveBook findOneAndUpdate user", user.savedBooks[0]);  
-      return user; 0
+      return user; 
     },  // end saveBook  
 
     // saveBookCreate mimics addBook which used Book(Thought).create. Username passed in for GQL testing.
