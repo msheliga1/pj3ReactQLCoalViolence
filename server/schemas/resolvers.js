@@ -181,7 +181,15 @@ const resolvers = {
             return user;
           // throw AuthenticationError;
     }, // end removeUser (created)
-        
+    // Reomve all users from DB. 
+    removeAllUsers: async (parent, { }) => {
+      console.log("Removing all users "); 
+      const result = await User.deleteMany({  });
+      console.log("Remove all users returning ...", result); 
+      const str = "It worked"; 
+      return str
+    }, // end removeUser (created)
+
     // This mimics removeComment which was embedded in old Thought
     removeBook: async (parent, { username, bookId }) => {
       console.log("Removing book from username ", username, " with gBookId ", bookId); 
