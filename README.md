@@ -6,7 +6,8 @@ Also used Act 28 MP (beware very poor code) and Act 24.
 
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
 Link to GitHub Repo: https://github.com/msheliga1/pj3ReactQLCoalViolence 
-Link to Render-Atlas Deployment: https://hw21urigraphqlbooks-1.onrender.com/   XX 
+Link to Render-Atlas Deployment: https://pj3reactqlcoalviolence.onrender.com
+https://hw21urigraphqlbooks-1.onrender.com/   XX 
 (Need MongoDB Atlas site which is also some type of hosting site.)  
 Link to Render-Atlas Deployment Help: https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas   
 <!-- Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git   -->  
