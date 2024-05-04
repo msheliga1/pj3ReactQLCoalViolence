@@ -56,6 +56,7 @@
 
   type Query {
     me: User
+    meCore: User
     users: [User]
     books: [Book]
     usersEmb: [User]

@@ -22,12 +22,25 @@ const resolvers = {
       if (!context) {throw new AuthenticationError('Context not found in resolver me'); } 
       if (context.user) {
         console.log("Starting me query with context.user", context.user); 
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate('savedBooks');
       }
       console.log("Throwing me query not logged in AuthenticatonError ... ");
       // MJS 4.22.24. Produces a "AuthenticalError is not a constructor error"
       throw new AuthenticationError('You need to be logged in!');
       // throw new AuthenticationError('You need to be logged in!');  // gives AuthenticationError isnt a function. 
+    },
+
+    // meCore returns the logged in user via findOne(context.user._id). No .populates
+    meCore: async (parent, args, context) => {    // logs here will show up in the server 
+      console.log("Resolvers.js: Starting meCore query with args", args); 
+      if (!context) {throw new AuthenticationError('Context not found in resolver meCore'); } 
+      if (context.user) {
+        console.log("Starting meCore query with context.user", context.user); 
+        return User.findOne({ _id: context.user._id });
+      }
+      console.log("Throwing me query not logged in AuthenticatonError ... ");
+      // MJS 4.22.24. Produces a "AuthenticationError is not a constructor error"
+      throw new AuthenticationError('You need to be logged in!');  // gives AuthenticationError isnt a function. 
     },
     // ---------- GET ALL -----------
     users: async () => {   // used for testing.  
@@ -73,14 +86,17 @@ const resolvers = {
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
   Mutation: {  // added savedBooks [] to User.create. 
     login: async (parent, { email, password }) => {
+      console.log("Resolvers Attempting to login ... email: ", email); 
       const user = await User.findOne({ email });
       if (!user) {
+        console.log("Resolvers login: Could not find email ... "); 
         throw AuthenticationError;
       }
       const correctPw = await user.isCorrectPassword(password);  // from models/User.js which uses bcrypt
       if (!correctPw) {
         throw AuthenticationError;
       }
+      console.log("Resolver login: Correct username and password ... signing Toker"); 
       const token = signToken(user);  // from server utils/auth.js
       return { token, user };
     },  // end login 
