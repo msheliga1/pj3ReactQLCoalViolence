@@ -88,36 +88,8 @@ const NewFight = ( ) => {
     } // end try-catch 
   };  // end handleFormSubmit 
 
-  // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
-    // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log("NewFight.jsx handleSaveBook saving for userID ", username); 
-    console.log("NewFight.jsx handleSaveBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-    if (!token) {
-      return false;
-    }
-    try {
-      console.log("NewFight.jsx handleSaveBook got token ... saving book using token ", token); 
-      // GraphQL method from CommentForm26 
-      // const { data } = await addComment({
-      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
-      // setCommentText('');
-      const vars = { username: username, ...bookToSave}; 
-      console.log("NewFight.jsx handleSaveBook saving book using ", vars); 
-      //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
-      const { data } = await saveBook({variables: vars,});
-      console.log("Saved book. Returned data: ", data); 
-      // if book successfully saves to user's account, save book id (only) to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
-    } catch (err) {
-      console.error(err);
-    }
-  }; // end handleSaveBook 
 
-  // create function to handle saving a book to our database
+  // create function to handle creating a book to our database. Also create ptr in User
   const handleCreateBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
