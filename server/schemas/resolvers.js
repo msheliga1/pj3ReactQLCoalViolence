@@ -181,7 +181,7 @@ const resolvers = {
             return user;
           // throw AuthenticationError;
     }, // end removeUser (created)
-    // Reomve all users from DB. 
+    // Remove all users from DB. Mainly used to reset database. 
     removeAllUsers: async (parent, { }) => {
       console.log("Removing all users "); 
       const result = await User.deleteMany({  });
@@ -189,6 +189,18 @@ const resolvers = {
       const str = "It worked"; 
       return str
     }, // end removeUser (created)
+
+    // Remove a created favored objects User ptr. Do NOT delete it. 
+    unfavor: async (parent, { userId, objId }, context) => {
+        console.log("Resolvers: Starting unfavor. userId adn objId: ", userId, objId); 
+        const user = await User.findOneAndUpdate(
+          { _id: userId },
+          { $pull: { favorites: objId } }
+        ).populate('favorites').populate('myFights');
+        console.log("Resolvers: unfavor updated user: ", user); 
+        return user;
+    }, // end removeThought (created) */ 
+
 
     // This mimics removeComment which was embedded in old Thought
     removeBook: async (parent, { username, bookId }) => {

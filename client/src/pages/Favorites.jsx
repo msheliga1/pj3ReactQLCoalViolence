@@ -136,14 +136,14 @@ const Favorites = () => {
           {userData.favorites.map((book) => {
             return (
               <Col md="4">
-                <Card key={book.bookId} border='dark'>
+                <Card key={book._id} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
                     <p className='small'>Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
-                    <Button className='btn-block btn-danger' onClick={() => handleUnfavor(book.bookId)}>
-                      Delete this Book!
+                    <Button className='btn-block btn-danger' onClick={() => handleUnfavor(book._id)}>
+                      Unfavor
                     </Button>
                   </Card.Body>
                 </Card>

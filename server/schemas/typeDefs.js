@@ -79,6 +79,7 @@
                   authors: [String]!, image: String, link: String): User
     removeUser(userId: ID!): User  
     removeAllUsers: String 
+    unfavor(userId: ID!, objId: ID!): User 
     removeBook(username: String!, bookId: String!): User  
     removeBookById(userId: ID!, bookId: String!): User  
     addBookOld(bookText: String!, bookAuthor: String!): Book 
