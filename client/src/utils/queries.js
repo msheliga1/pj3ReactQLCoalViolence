@@ -15,14 +15,14 @@ query me {
 }
 `;
 
-// Get me, including all data. ie. embedded savedBooks
+// Get me, including all data. ie. embedded or populated favorites
 export const GET_ME_ALL = gql`
 query me {
   me {
     _id
     email
     username
-    savedBooks {
+    favorites {
       title
       bookId
       authors
@@ -34,14 +34,14 @@ query me {
 }
 `;
 
-// Use the username to get all info including embedded savedBooks array.
+// Use the username to get all info including embedded favorites array.
 export const GET_USER = gql`
 query getUser($username: String!) {
   user(username: $username) {
     _id
     username
     email
-    savedBooks {
+    favorites {
       title
       bookId
       authors

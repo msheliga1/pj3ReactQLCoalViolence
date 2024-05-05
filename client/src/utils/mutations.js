@@ -6,7 +6,7 @@ import { gql } from '@apollo/client';
 // REMOVE_BOOK will execute the removeBook mutation.
 // These methods are imported and used in react .jsx pages such as searchBoooks and SavedBooks. 
 
-// Note no email returned in Act26, nor savedBooks or similar
+// Note no email returned in Act26, nor favorites or similar
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -15,7 +15,7 @@ export const LOGIN_USER = gql`
         _id
         username
         email
-        savedBooks {
+        favorites {
           bookId
           title
           description
@@ -51,7 +51,7 @@ mutation saveBook($username: String!, $bookId: String!, $title: String!, $author
     _id
     email
     username
-    savedBooks {
+    favorites {
       bookId
       title
       description
@@ -102,7 +102,7 @@ mutation removeBook($username: String!, $bookId: String!) {
       _id
       email
       username
-      savedBooks {
+      favorites {
         bookId
         title
         description

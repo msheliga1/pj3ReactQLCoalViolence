@@ -3,9 +3,9 @@
 // MJS 4.18.24 moded Act21-24. 
 
   // New bookID is from googleBooks  
-  // part of User     books: [Book] => savedBooks works in GQL 4.28.24 MJS
+  // part of User     books: [Book] => favorites works in GQL 4.28.24 MJS
   // Unsure about _id.  This is NOT in the REST User.js model. 
-  // Project description states: User type: _id, username, email, bookCount, savedBooks
+  // Project description states: User type: _id, username, email, bookCount, favorites
   // But cannot get getById to work. Arghhhh
   // Create user auto-generates an ID. 
   // users and user(username) works. 
@@ -20,7 +20,7 @@
   //          returns a User type. (Look into creating an input type to handle all of these params!)
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
 
-  // When User references savedBooks, this MUST be [Book], similar to Act21-26 which has [Thought] 
+  // When User references favorites, this MUST be [Book], similar to Act21-26 which has [Thought] 
   // even though addThought uses .create and { $addToSet: { thoughts: thought._id } }
   const typeDefs = `
   type User {
@@ -28,7 +28,7 @@
     username: String! 
     email: String! 
     password: String! 
-    savedBooks: [Book]! 
+    favorites: [Book]! 
   }
 
   type Book {

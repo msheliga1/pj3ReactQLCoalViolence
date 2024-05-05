@@ -22,7 +22,7 @@ const resolvers = {
       if (!context) {throw new AuthenticationError('Context not found in resolver me'); } 
       if (context.user) {
         console.log("Starting me query with context.user", context.user); 
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return User.findOne({ _id: context.user._id }).populate('favorites');
       }
       console.log("Throwing me query not logged in AuthenticatonError ... ");
       // MJS 4.22.24. Produces a "AuthenticalError is not a constructor error"
@@ -44,16 +44,16 @@ const resolvers = {
     },
     // ---------- GET ALL -----------
     users: async () => {   // used for testing.  
-        return User.find().populate('savedBooks'); 
+        return User.find().populate('favorites'); 
     }, 
     books: async () => {   // used for testing.  
       return Book.find(); 
     }, 
-    usersEmb: async () => {   // used for testing. No populate => embedded or dont display savedBooks 
+    usersEmb: async () => {   // used for testing. No populate => embedded or dont display favorites 
       return await User.find(); 
     }, 
     usersPopBooks: async () => {  // wont work if books is embedded. Must match typeDef field name. 
-      return User.find().populate('savedBooks');
+      return User.find().populate('favorites');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
@@ -70,7 +70,7 @@ const resolvers = {
       return User.findOne({ _id: userId });
     },
     userPopBooks: async (parent, { username }) => {  // wont work if books is embedded
-      return User.findOne({ username }).populate('savedBooks');
+      return User.findOne({ username }).populate('favorites');
     },
     /* books: async (parent, { username }) => {
       const params = username ? { username } : {};
@@ -84,7 +84,7 @@ const resolvers = {
   // saveBook: Accepts book authors array, descript, title, bookId, image, and link params
   //          returns a User type. (Look into creating an input type to handle all of these params!)
   // removeBook: Accepts a book's bookId as a parameter; returns a User type.
-  Mutation: {  // added savedBooks [] to User.create. 
+  Mutation: {  // added favorites [] to User.create. 
     login: async (parent, { email, password }) => {
       console.log("Resolvers Attempting to login ... email: ", email); 
       const user = await User.findOne({ email });
@@ -101,7 +101,7 @@ const resolvers = {
       return { token, user };
     },  // end login 
     addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password, "savedBooks":[] });
+      const user = await User.create({ username, email, password, "favorites":[] });
       const token = signToken(user);
       return { token, user };  // This returns a user in GraphQL
       // return { user }; 
@@ -115,17 +115,17 @@ const resolvers = {
       if (!context) { console.log("SaveBook no context (Expected if run from GQL): ", context); }
       console.log("Resolver SaveBook context.user", context.user); 
       const origUser = await User.findOne({ username });
-      console.log("Resolver saveBook User from findOne ", origUser.username, origUser.email, origUser.savedBooks.length);  // returns correct value
+      console.log("Resolver saveBook User from findOne ", origUser.username, origUser.email, origUser.favorites.length);  // returns correct value
       const comments = [];  // no comments when first adding incident
       const user = await User.findOneAndUpdate(
         { username: username }, 
-        // Note savedBooks, not just books!! - from addUser "savedBooks":[]
-        { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, "comments":[] },  }, },
+        // Note favorites, not just books!! - from addUser "favorites":[]
+        { $addToSet: { favorites: { bookId, title, description, authors, image, link, "comments":[] },  }, },
         { new: true, runValidators: true, }
       );
-      //         { $addToSet: { savedBooks: { bookId, title, description, authors, image, link, comments },  }, },
-      console.log("Resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.savedBooks.length);  
-      console.log("Resolver saveBook findOneAndUpdate user", user.savedBooks[0]);  
+      //         { $addToSet: { favorites: { bookId, title, description, authors, image, link, comments },  }, },
+      console.log("Resolver saveBook findOneAndUpdate user", user.username, user.email, "books", user.favorites.length);  
+      console.log("Resolver saveBook findOneAndUpdate user", user.favorites[0]);  
       return user; 
     },  // end saveBook  
 
@@ -139,10 +139,10 @@ const resolvers = {
  
       // Andrew:  User needs list of Books IDs.  Saving entire book is extra-storage issue. 
       // With set of book Ids, then .populate should work. 
-      // { $addToSet: { savedBooks: book._id } }
+      // { $addToSet: { favorites: book._id } }
       const user = await User.findOneAndUpdate(
         { username: username }, 
-        { $addToSet: { savedBooks: book._id } }, 
+        { $addToSet: { favorites: book._id } }, 
         { new: true, runValidators: true, } 
       );
       console.log("Found one and updated user ... ", user); 
@@ -169,7 +169,7 @@ const resolvers = {
           console.log("saveBookById User from findOne ", origUser.username);  // returns null 
           return User.findOneAndUpdate(
             { _id: userId },
-            { $addToSet: { savedBooks: { bookId, title, description, authors, image, link } }, },
+            { $addToSet: { favorites: { bookId, title, description, authors, image, link } }, },
             { new: true, runValidators: true, }
           );
     },  // end saveBookById
@@ -198,7 +198,7 @@ const resolvers = {
       // removeComment method from Book code was  { _id: bookId },
       const user = await User.findOneAndUpdate(
         { username },
-        { $pull: { savedBooks: { bookId: bookId } } },
+        { $pull: { favorites: { bookId: bookId } } },
         { new: true }
       );; 
       console.log("Removed book ... returning updated user."); 
@@ -212,7 +212,7 @@ const resolvers = {
           //   removeComment from Book code was  { _id: bookId },
           const user = await User.findOneAndUpdate(
             { _id: userId },
-            { $pull: { savedBooks: { bookId: bookId } } },
+            { $pull: { favorites: { bookId: bookId } } },
             { new: true }
           );; 
           console.log("Revmoved book ... returning updated user."); 

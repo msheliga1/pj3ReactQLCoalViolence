@@ -1,5 +1,5 @@
 // MJS 4.21.24 - Orig from starter code.  Note NO _id in this file, but it could?? be auto-generated. 
-// Users have an embedded array of savedBooks, as well as a virtual bookCount value. 
+// Users have an embedded array of favorites, as well as a virtual bookCount value. 
 // Wether or not GraphQL typeders should have an _id is unclear.  Trying to getById wont work. 
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -24,10 +24,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // set savedBooks to be an array of data that adheres to the bookSchema
+    // set favorites to be an array of data that adheres to the bookSchema
     // stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }] from mongoosejs.com/docs/populate.html
-    // savedBooks: [bookSchema],
-    savedBooks: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
+    // favorites: [bookSchema],
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
   },
   // set this to use virtual below
   {
@@ -52,7 +52,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 // when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
 // userSchema.virtual('bookCount').get(function () {
-//   return this.savedBooks.length;
+//   return this.favorites.length;
 // });
 
 const User = model('User', userSchema);
