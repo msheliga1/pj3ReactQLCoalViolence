@@ -134,50 +134,26 @@ Attempt to get code running (index.html page display in this case.)
             - Noted that savedBooks [] must be [Books] and NOT [ID]
             - Got .populate to work.     
             - Working methods include add user, getAllUsers, getUser and add Book. 
-        Goal: Add new page for my books. 
+    CLIENT Goal: Add new page for my books and create book. 
+            - Works
+        Goal: Add New Book to both favorites and myFights. 
+            - Works
+        Goal: Remove book from favorite array. 
+        Goal: Search shows favorited and myFights 
 
 CLIENT    
-    Should run at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!).  
+    Runs at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!).  
         App at port 3000. GraphQL at 3001.  
     Found queries and mutations under client/src/utils  
         Added graphQL style routes, by copying and pasting from graphQL. Made sure got all non password data.  
-    Verified: main page still displays.  
-    Verified: main page still searches correctly.  
-    Goal: Sign Up.  
-        Moded App.jsx. Largely used Act 26, but with NavBar instead of Header and Footer.  
+
+ly used Act 26, but with NavBar instead of Header and Footer.  
             Got build error. Missing dependency "@apollo/client": "^3.7.14", (also missing graphql).  
             - Accidentally added to SERVER package.json.  Gave dreaded rollup issue. Mike the TA said to  
                 put in the client package.json.  Got rid of build error.  
         Tweakd vite.config.js (per Andrew-Mike. Would never have thought of on my own.).  
-        Moded SignUpForm.jsx.  Only 1 or 2 lines using ADD_USER needed changed.  
-        Error: ADD_USER not a function.  ADD_USER imported from mutations. Code same as 26. Mutation same as 26.  
-            Changed ADD_USER to ADD_USER2 in mutation and in import and call. Same not a function error.  
-            NPM i in client. Rebuilt. Not helpful.  
-            NPM i r/c/s. Rebuilt. Restarted server. Not helpful.  
-        Gave up on Sign Up for now and went to Login. See if same error occurs.  
-        4.23 Class. Andrew said I should make this look like Login and AddBook.  
-        Basic Problem: Somehow miscopied incomplete file from ??? to Signup26.jsx.  File NOT from Act 26.  
-        Added code analgous to correct signup26 and login. Eliminated any code with res or result.  
-        (Commented out getMe useQuery in SearchBooks.jsx)  
-        Finally got to work. Verified new sign-up is in list of all GQL users.  
-    Goal: Log In  
-        Copied parts of userFormSubmit from Act 26 Login.jsx to LoginForm.jsx  
-        Had to keep useState for validator and showAlert.   
-        Note name change of other useState from userFormData to formState (and setFormState).  
-            Should have changed the useState line, instead changed all others.  
-        Able to get rid of all "render" errors.  
-        Able to login. Super duper awesome great.   
-    Goal: Add Book.  
-        Once Logged in can search for books. Get addBook button with each book found.  
-    Goal: Save Boook (SearchBooks.jsx handler)  
-        Code from addComment Act 26 varies more than other code.   
-        Able to gather together expected username and book values.  
-        Get a 400 error.  Might be because hardwired username to MJS.  
-        Noted that not all books have descriptions.  
-            Changed SAVE_BOOK schema, GQL and mutation so that descption is NOT required.  
-            Freaking graphQL still wont add without a desciption. "null" does not work either. But  
-                okay without an image or link value. Arghhh.  
-        Per Andrew, can try GET_ME query to return username.  
+
+
         Got GET_ME query to work.  Must be outside of handler to avoid hook error.  
         This fails because context is empty for me/GET_ME query.  
         Context also empty for saveBook mutation. Arghhh.  
