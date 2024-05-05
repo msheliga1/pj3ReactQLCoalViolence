@@ -23,6 +23,14 @@ export const LOGIN_USER = gql`
           image
           link
         }
+        myFights {
+          bookId
+          title
+          description
+          authors
+          image
+          link
+        }
       }
     }
   }
@@ -52,6 +60,14 @@ mutation saveBook($username: String!, $bookId: String!, $title: String!, $author
     email
     username
     favorites {
+      bookId
+      title
+      description
+      authors
+      image
+      link
+    }
+    myFights {
       bookId
       title
       description
@@ -103,6 +119,14 @@ mutation removeBook($username: String!, $bookId: String!) {
       email
       username
       favorites {
+        bookId
+        title
+        description
+        authors
+        image
+        link
+      }
+      myFights {
         bookId
         title
         description

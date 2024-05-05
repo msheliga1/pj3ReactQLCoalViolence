@@ -22,7 +22,7 @@ const resolvers = {
       if (!context) {throw new AuthenticationError('Context not found in resolver me'); } 
       if (context.user) {
         console.log("Starting me query with context.user", context.user); 
-        return User.findOne({ _id: context.user._id }).populate('favorites');
+        return User.findOne({ _id: context.user._id }).populate('favorites').populate('myFights');
       }
       console.log("Throwing me query not logged in AuthenticatonError ... ");
       // MJS 4.22.24. Produces a "AuthenticalError is not a constructor error"
@@ -44,7 +44,7 @@ const resolvers = {
     },
     // ---------- GET ALL -----------
     users: async () => {   // used for testing.  
-        return User.find().populate('favorites'); 
+        return User.find().populate('favorites').populate('myFights'); 
     }, 
     books: async () => {   // used for testing.  
       return Book.find(); 
@@ -53,7 +53,7 @@ const resolvers = {
       return await User.find(); 
     }, 
     usersPopBooks: async () => {  // wont work if books is embedded. Must match typeDef field name. 
-      return User.find().populate('favorites');
+      return User.find().populate('favorites').populate('myFights');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
@@ -70,7 +70,7 @@ const resolvers = {
       return User.findOne({ _id: userId });
     },
     userPopBooks: async (parent, { username }) => {  // wont work if books is embedded
-      return User.findOne({ username }).populate('favorites');
+      return User.findOne({ username }).populate('favorites').populate('myFights');
     },
     /* books: async (parent, { username }) => {
       const params = username ? { username } : {};
@@ -101,7 +101,7 @@ const resolvers = {
       return { token, user };
     },  // end login 
     addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password, "favorites":[] });
+      const user = await User.create({ username, email, password, "favorites":[], "myFights":[], });
       const token = signToken(user);
       return { token, user };  // This returns a user in GraphQL
       // return { user }; 
@@ -139,13 +139,13 @@ const resolvers = {
  
       // Andrew:  User needs list of Books IDs.  Saving entire book is extra-storage issue. 
       // With set of book Ids, then .populate should work. 
-      // { $addToSet: { favorites: book._id } }
+      // { $addToSet: { favorites: book._id } }.  Having 2 in findOneAndUpdate wont work
       const user = await User.findOneAndUpdate(
         { username: username }, 
-        { $addToSet: { favorites: book._id } }, 
+        { $addToSet: { myFights: book._id, favorites: book._id } }, 
         { new: true, runValidators: true, } 
       );
-      console.log("Found one and updated user ... ", user); 
+      console.log("createBook: Found one and updated user ... ", user); 
       return book; 
     }, // end addBookCreate
     // addThought uses Thought.create and context to get username

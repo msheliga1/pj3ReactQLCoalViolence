@@ -30,6 +30,14 @@ query me {
       image
       link
     }
+    myFights {
+      title
+      bookId
+      authors
+      description
+      image
+      link
+    }
   }
 }
 `;
@@ -42,6 +50,14 @@ query getUser($username: String!) {
     username
     email
     favorites {
+      title
+      bookId
+      authors
+      description
+      image
+      link
+    }
+    myFights {
       title
       bookId
       authors

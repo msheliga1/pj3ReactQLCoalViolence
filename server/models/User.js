@@ -28,6 +28,7 @@ const userSchema = new Schema(
     // stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }] from mongoosejs.com/docs/populate.html
     // favorites: [bookSchema],
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
+    myFights: [{ type: Schema.Types.ObjectId, ref: 'Book' }],  // Incidents created by this user. 
   },
   // set this to use virtual below
   {

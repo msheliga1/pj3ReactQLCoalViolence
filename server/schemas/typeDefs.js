@@ -29,6 +29,7 @@
     email: String! 
     password: String! 
     favorites: [Book]! 
+    myFights: [Book]! 
   }
 
   type Book {

@@ -34,10 +34,9 @@ const MyFights = () => {
     return false; 
   }
   const userMe = data.me; 
-  // userMe = { ...userMe, favorites:[]} ;  // for testing when GET_ME didnt have favorites
   console.log("Saved books. user from GET_ME_ALL data.me: ", userMe); 
   console.log("Saved books. user from GET_ME_ALL data.me.username: ", userMe.username); 
-  console.log("Saved books. user from GET_ME_ALL data.me.favorites.length: ", userMe.favorites.length); 
+  console.log("Saved books. user from GET_ME_ALL data.me.myFights.length: ", userMe.myFights.length); 
 
   // This occassionally gives "More hooks than previous render (even after rebuild and server restart)
   // But the seems work sometimes. MJS 4.25.24
@@ -103,7 +102,7 @@ const MyFights = () => {
       const { data } = await removeBook({variables: vars,});
       console.log("MyBooks handleDeleteBook saveBook data ", data); 
       const dataRemoved = data.removeBook;  // this is actually the updated User
-      const booksLeft = dataRemoved.favorites.length; 
+      const booksLeft = dataRemoved.myFights.length; 
       console.log("MyBooks handleDeleteBook username: ", dataRemoved.username, " savedBookCount ", booksLeft);
       setUserData(dataRemoved);  // originally updatedUser
       console.log("MyBooks handleDeleteBook reset UserData for ", dataRemoved.username);
@@ -129,12 +128,12 @@ const MyFights = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.favorites.length
-            ? `Viewing ${userData.favorites.length} saved ${userData.favorites.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+          {userData.myFights.length
+            ? `Viewing ${userData.myFights.length} saved ${userData.myFights.length === 1 ? 'book' : 'books'}:`
+            : 'You have not created any books!'}
         </h2>
         <Row>
-          {userData.favorites.map((book) => {
+          {userData.myFights.map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border='dark'>
