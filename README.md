@@ -138,8 +138,11 @@ Attempt to get code running (index.html page display in this case.)
             - Works
         Goal: Add New Book to both favorites and myFights. 
             - Works
-        Goal: Remove book from favorite array. 
+        Goal: Remove Item from favorite array. 
+            - Works
+        Goal - Get input form (NewFightForm) working . 
         Goal: Search shows favorited and myFights 
+        
 
 CLIENT    
     Runs at same time as graphQL if "mpm run develop". (Big shout out to Chris for help!).  
