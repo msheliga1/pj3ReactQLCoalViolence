@@ -9,6 +9,12 @@ import Auth from '../utils/auth';
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
+  const prof = Auth.getProfile(); 
+  let username = "";
+  if (!!prof && prof.data && prof.data.username) { 
+    username = prof.data.username;   
+    console.log("Navbar profile.data.username: ", username);   
+  }
 
   return (
     <>
@@ -16,14 +22,16 @@ const AppNavbar = () => {
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
             Google Books Search
-          </Navbar.Brand>
+          </Navbar.Brand>)
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
               <Nav.Link as={Link} to='/'>
-                Search For Books
+                Search
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
+              {/* see Search books for embedded variable alt={`The cover for ${book.title}`} */ }
+              {/* Authors: {book.authors} */ }
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/favorites'>
@@ -35,7 +43,7 @@ const AppNavbar = () => {
                   <Nav.Link as={Link} to='/newFight'>
                     Create New Incident
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout}> Logout {username}  </Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>

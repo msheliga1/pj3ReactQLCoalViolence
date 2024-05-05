@@ -28,7 +28,7 @@ class AuthService {
   }
 
   getToken() {
-    // Retrieves the user token from localStorage
+    // Retrieves the user token from localStorage. Not the most secure. 
     return localStorage.getItem('id_token');
   }
 
