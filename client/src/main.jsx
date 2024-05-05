@@ -7,6 +7,7 @@ import SearchBooks from './pages/SearchBooks'
 import Favorites from './pages/Favorites'
 import MyFights from './pages/MyFights'
 import NewFight from './pages/NewFight'
+import NewFightForm from './pages/NewFightForm'
 
 // Notice that SearchBooks is the index - ie. the / route. 
 const router = createBrowserRouter([
@@ -27,6 +28,9 @@ const router = createBrowserRouter([
       }, {
         path: '/newFight',
         element: <NewFight />
+      }, {
+        path: '/newFightForm',
+        element: <NewFightForm />
       }
     ]
   }

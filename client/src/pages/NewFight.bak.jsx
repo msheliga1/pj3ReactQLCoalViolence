@@ -1,7 +1,6 @@
-// MJS 5.2.24 - client/src/pages/SearchAndSave.jsx 
-// From 2.23.24 hw21 SearchBooks.jsx from uri starter code. 
-// This code not only searches for books, it allows one to save each found book to favorites. 
-// It temporarily allows one to create a book.  
+// MJS 5.2.24 - client/src/pages/NewFight.jsx from MJS hw21 and uri starter code. 
+// This code not only searches for books, it allows one to create books. 
+//  Goal: Get create working.  Then create a form to accept data. 
 import { useState, useEffect } from 'react';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 import Auth from '../utils/auth';
@@ -14,9 +13,10 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 // import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
+import { CREATE_BOOK } from '../utils/mutations';
 import { GET_ME } from '../utils/queries';
 
-const SearchBooks = ( ) => { 
+const NewFight = ( ) => { 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
@@ -24,13 +24,17 @@ const SearchBooks = ( ) => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
   // Added next line for GraphQL. Basically convert SAVE_BOOK graphQL into saveBook method. 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK); // must be outside handleForm promise
+  const saveBookArray = useMutation(SAVE_BOOK); // must be outside handleForm promise
+  const saveBook = saveBookArray[0];
+  const errorBook = saveBookArray[1]; 
+  const [createBook, { error }] = useMutation(CREATE_BOOK); // must be outside handleForm promise
+
   // Sample from SingleThough26 
   // const { loading, data } = useQuery(QUERY_SINGLE_THOUGHT, { variables: { thoughtId: thoughtId }, });
   // Added next line for GraphQL. Basically find out who is logged in. // must be outside handleForm promise
   // God only knows why this works with "data" but not "dataMe". 
   const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
-  console.log("Searchbook GET_ME returned data ", data); 
+  console.log("NewFight GET_ME returned data ", data); 
 
   let good = false; 
   if (data) {
@@ -50,7 +54,7 @@ const SearchBooks = ( ) => {
     console.log("Setting username to MJS"); 
   } 
 
-  console.log("Searchbook GET_ME returned username ", username);  // works with data
+  console.log("NewFight GET_ME returned username ", username);  // works with data
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -67,7 +71,7 @@ const SearchBooks = ( ) => {
     try {
       const response = await searchGoogleBooks(searchInput);
       if (!response.ok) {
-        throw new Error('something went wrong searching for a book. ' + searchInput);
+        throw new Error('Something went wrong searching for a book. ' + searchInput);
       }
       const { items } = await response.json();
       const bookData = items.map((book) => ({
@@ -84,57 +88,29 @@ const SearchBooks = ( ) => {
     } // end try-catch 
   };  // end handleFormSubmit 
 
-  // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
-    // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log("SearchBooks.jsx handleSaveBook saving for userID ", username); 
-    console.log("SearchBooks.jsx handleSaveBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-    if (!token) {
-      return false;
-    }
-    try {
-      console.log("SearchBooks.jsx handleSaveBook got token ... saving book using token ", token); 
-      // GraphQL method from CommentForm26 
-      // const { data } = await addComment({
-      //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
-      // setCommentText('');
-      const vars = { username: username, ...bookToSave}; 
-      console.log("SearchBooks.jsx handleSaveBook saving book using ", vars); 
-      //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
-      const { data } = await saveBook({variables: vars,});
-      console.log("Saved book. Returned data: ", data); 
-      // if book successfully saves to user's account, save book id (only) to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
-    } catch (err) {
-      console.error(err);
-    }
-  }; // end handleSaveBook 
 
-  // create function to handle saving a book to our database
+  // create function to handle creating a book to our database. Also create ptr in User
   const handleCreateBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log("SearchBooks.jsx handleSaveBook saving for userID ", username); 
-    console.log("SearchBooks.jsx handleSaveBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
+    console.log("NewFight.jsx handleCreateBook saving for userID ", username); 
+    console.log("NewFight.jsx handleCreateBook title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       return false;
     }
     try {
-      console.log("SearchBooks.jsx handleCreateBook got token ... creating book using token ", token); 
+      console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
       // GraphQL method from CommentForm26 
       // const { data } = await addComment({
       //  variables: { thoughtId, commentText, commentAuthor: Auth.getProfile().data.username, }, });
       // setCommentText('');
       const vars = { username: username, ...bookToSave}; 
-      console.log("SearchBooks.jsx handleSaveBook saving book using ", vars); 
+      console.log("NewFight.jsx handleCreateBook creating book using ", vars); 
       //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
-      const { data } = await saveBook({variables: vars,});
-      console.log("Saved book. Returned data: ", data); 
+      const { data } = await createBook({variables: vars,});
+      console.log("Created book. Returned data: ", data); 
       // if book successfully saves to user's account, save book id (only) to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
@@ -146,7 +122,7 @@ const SearchBooks = ( ) => {
     <>
       <div className="text-light bg-dark p-5">
         <Container>
-          <h1>Search for Books!</h1>
+    []      <h1>Enter a New Incident</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -194,9 +170,9 @@ const SearchBooks = ( ) => {
                         onClick={() => handleSaveBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                           ? 'This book has already been saved!'
-                          : 'Save this Book!'}
-                      </Button>
-                    )}                    
+                          : 'Save this Book! (Old) '}
+                      </Button>                      
+                    )}   
                     {Auth.loggedIn() && (
                       <Button
                         disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
@@ -204,10 +180,9 @@ const SearchBooks = ( ) => {
                         onClick={() => handleCreateBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                           ? 'This book has already been saved!'
-                          : 'Save this Book!'}
-                      </Button>
-                    )}
-
+                          : 'Create Book!'}
+                      </Button>                      
+                    )}                    
                   </Card.Body>
                 </Card>
               </Col>
@@ -219,4 +194,4 @@ const SearchBooks = ( ) => {
   );
 };
 
-export default SearchBooks;
+export default NewFight;

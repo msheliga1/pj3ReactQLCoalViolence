@@ -41,7 +41,10 @@ const AppNavbar = () => {
                     Your Incidents
                   </Nav.Link>
                   <Nav.Link as={Link} to='/newFight'>
-                    Create New Incident
+                    Create New Incident (Via Search)
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/newFightForm'>
+                    New Incident Form
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}> Logout {username}  </Nav.Link>
                 </>
