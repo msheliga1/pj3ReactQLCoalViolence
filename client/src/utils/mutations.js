@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 // ADD_USER will execute the addUser mutation. 
 // SAVE_BOOK will execute the saveBook mutation, with the book embedded in a user. 
 // CREATE_BOOK executes the createBook mutation, with a non-embedded book. 
+// UNFAVOR execute unfavor mutation, which is a PUT. Removes book from users favorites array. 
 // REMOVE_BOOK will execute the removeBook mutation.
 // These methods are imported and used in react .jsx pages such as searchBoooks and SavedBooks. 
 
@@ -107,6 +108,21 @@ mutation CreateBook($username: String!, $bookId: String!, $title: String!, $auth
       commentText
       commentAuthor
       createdAt
+    }
+  }
+}
+`;
+
+export const UNFAVOR = gql`
+mutation unfavor($userId: ID!, $objId: ID!) {
+  unfavor(userId: $userId, objId: $objId) {
+    _id
+    username
+    email
+    favorites {
+      _id
+      title
+      bookId
     }
   }
 }

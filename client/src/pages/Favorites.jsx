@@ -7,7 +7,7 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME, GET_ME_ALL } from '../utils/queries'; 
-import { REMOVE_BOOK } from '../utils/mutations'; 
+import { REMOVE_BOOK, UNFAVOR } from '../utils/mutations'; 
 
 // Remove the useEffect() Hook that sets the state for UserData.
 // Instead, use the useQuery() Hook to run the GET_ME query on load and save it to a variable named userData.
@@ -16,7 +16,8 @@ const Favorites = () => {
   // it seems that userData is what is displayed in the html 
   const [userData, setUserData] = useState({});  // here is the user localStorage variable
 
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK); // must be outside handleXXX method
+  // const [removeBook, { error }] = useMutation(REMOVE_BOOK);   // must be outside handleXXX method
+  const [unfavor, { error }] = useMutation(UNFAVOR);             // must be outside handleXXX method
   const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  
 
   console.log("Favorites GET_ME_ALL returned data ", data); 
@@ -85,30 +86,34 @@ const Favorites = () => {
   }, [userDataLength]);  // end useEffect
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleUnfavor = async (bookId) => {
+  const handleUnfavor = async (_id) => {
     console.log("Favorites.jsx handleUnfavor starting ... "); 
+    console.log("              handleUnfavor bookId ... ", _id); 
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {
       console.log("Favorites handleUnfavor. Could not get token. "); 
       return false;
     }
     try {
-      // const response = await deleteBook(bookId, token);
-      // if (!response.ok) { throw new Error('something went wrong!'); }
-      // const updatedUser = await response.json();
       const username = userMe.username; 
-      const vars = { username, bookId }; 
-      console.log("Favorites handleUnfavor unfavoring book using ", vars); // correct
-      const { data } = await removeBook({variables: vars,});
-      console.log("Favorites handleUnfavor removeFavor data ", data); 
-      const dataRemoved = data.removeBook;  // this is actually the updated User
-      const booksLeft = dataRemoved.favorites.length; 
-      console.log("Favorites handleUnfavor username: ", dataRemoved.username, " FavoritesCount ", booksLeft);
-      setUserData(dataRemoved);  // originally updatedUser
-      console.log("Favorites handleUnfavor reset UserData for ", dataRemoved.username);
+      const userId = userMe._id; 
+      const objId = _id; 
+      const vars = { userId, objId }; 
+      console.log("Favorites handleUnfavor unfavoring book using ", vars); 
+      // const { data } = await removeBook({variables: vars,});
+      const { data } = await unfavor({variables: vars,});
+      console.log("Favorites handleUnfavor returned data ", data); 
+      const updatedUser = data.unfavor;  // this is actually the updated User
+      console.log("Favorites handleUnfavor updatedUser: ", updatedUser);
+      const updatedFavorites = updatedUser.favorites;
+      console.log("Favorites handleUnfavor updatedFavorites: ", updatedFavorites);
+      const booksLeft = updatedUser.favorites.length; 
+      console.log("Favorites handleUnfavor username: ", updatedUser.username, " FavoritesCount ", booksLeft);
+      /* setUserData(updatedUser);  // originally updatedUser
+      console.log("Favorites handleUnfavor reset UserData for ", updatedUser.username);
       // upon success, remove book's id from localStorage
-      removeBookId(bookId); 
-      console.log("Favorites handleUnfavor favorite removed from local storage ", bookId);
+      removeBookId(bookId); */ 
+      console.log("Favorites handleUnfavor favorite removed from local storage ", _id); 
     } catch (err) {
       console.error(err);
     }
@@ -140,7 +145,7 @@ const Favorites = () => {
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
+                    <p className='small'>Authors: {book.authors} ID: {book._id} gID: {book.bookId} </p>
                     <Card.Text>{book.description}</Card.Text>
                     <Button className='btn-block btn-danger' onClick={() => handleUnfavor(book._id)}>
                       Unfavor

@@ -23,6 +23,7 @@ query me {
     email
     username
     favorites {
+      _id
       title
       bookId
       authors
@@ -31,6 +32,7 @@ query me {
       link
     }
     myFights {
+      _id
       title
       bookId
       authors
