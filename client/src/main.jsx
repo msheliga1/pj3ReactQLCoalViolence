@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
 import SearchBooks from './pages/SearchBooks'
-import SavedBooks from './pages/SavedBooks'
+import Favorites from './pages/Favorites'
 import MyFights from './pages/MyFights'
 import NewFight from './pages/NewFight'
 
@@ -13,14 +13,14 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <h1 className='display-2'>Books App Wrong page!</h1>,
+    errorElement: <h1 className='display-2'>Coal Camp Violence App Wrong page!</h1>,
     children: [
       {
         index: true,
         element: <SearchBooks />
       }, {
         path: '/favorites',
-        element: <SavedBooks />
+        element: <Favorites />
       }, {
         path: '/myFights',
         element: <MyFights />
