@@ -195,11 +195,12 @@ const resolvers = {
         console.log("Resolvers: Starting unfavor. userId adn objId: ", userId, objId); 
         const user = await User.findOneAndUpdate(
           { _id: userId },
-          { $pull: { favorites: objId } }
+          { $pull: { favorites: objId } }, 
+          { new: true }
         ).populate('favorites').populate('myFights');
         console.log("Resolvers: unfavor updated user: ", user); 
         return user;
-    }, // end removeThought (created) */ 
+    }, // end unfavor (from favorites[ID] ptr array) 
 
 
     // This mimics removeComment which was embedded in old Thought
