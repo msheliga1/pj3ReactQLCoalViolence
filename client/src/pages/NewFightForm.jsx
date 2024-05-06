@@ -11,7 +11,8 @@ import Auth from '../utils/auth';
 
 const NewFightForm = () => {
   // set initial form state
-  const [userFormData, setUserFormData] = useState({ title: '', coalcamp:'', state: '', description: '' });
+  const [userFormData, setUserFormData] = 
+    useState({ title: '', coalcamp:'', state: '', description: '', image: '' });
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
@@ -51,9 +52,11 @@ const NewFightForm = () => {
         const bookId = userFormData.coalcamp;
         const description = userFormData.description; 
         const authors = [ "Author1" ];  
-        const image = null; // "https://www.hmdb.org/Photos4/440/Photo440968.jpg";  Works
+        let image = null; // "https://www.hmdb.org/Photos4/440/Photo440968.jpg";  Works. 
+        // https://tile.loc.gov/storage-services/service/pnp/fsa/8c13000/8c13300/8c13353v.jpg
         // "http://books.google.com/books/content
-        // ?id=VSZ4BgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api
+        // ?id=VSZ4BgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api 
+        if (userFormData.image.length > 0) image = userFormData.image; 
         const link = null;
         const comments = []; 
         const bookToSave = { title, bookId, authors, description, image, link, comments }; 
@@ -64,7 +67,7 @@ const NewFightForm = () => {
         //  thoughtAuthor: Auth.getProfile().data.username,
         const { data } = await createBook({variables: vars,});
         console.log("Created book. Returned data: ", data); 
-        // setThoughtText('');
+        setTitleText('Incident Title');
       } catch (err) {
         console.error(err);
       } 
@@ -102,7 +105,7 @@ const NewFightForm = () => {
             value={userFormData.coalcamp}
             required
           />
-        <Form.Control.Feedback type='invalid'>State is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Coal camp name is required!</Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='state'>State Abbreviation</Form.Label>
@@ -119,6 +122,17 @@ const NewFightForm = () => {
         </Form.Group>
 
         <Form.Group className='mb-3'>
+          <Form.Label htmlFor='image'>Image of Newspaper Article or Photo </Form.Label>
+          <Form.Control
+            type='text'
+            placeholder="Link to image such as https://www.hmdb.org/Photos4/440/Photo440968.jpg"
+            name='image'
+            onChange={handleInputChange}
+            value={userFormData.image}
+          />
+        </Form.Group>
+
+        <Form.Group className='mb-3'>
           <Form.Label htmlFor='description'>Description Text Area</Form.Label>
           <Form.Control
             as="textarea" rows={15}
@@ -128,10 +142,10 @@ const NewFightForm = () => {
             value={userFormData.description}
             required
           />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Description is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.title && userFormData.state && userFormData.description)}
+          disabled={!(userFormData.title && userFormData.coalcamp && userFormData.description)}
           type='submit'
           variant='success'>
           Submit

@@ -134,7 +134,10 @@ const resolvers = {
       console.log("createBook resolver (required): ", username, bookId, title);
       console.log("createBook resolver (desc, auth, img, lnk): ", description, authors, image, link); 
       let myImage = image;
-      if (!myImage) { myImage = "https://www.hmdb.org/Photos4/440/Photo440968.jpg"; }
+      if (!myImage || myImage.length === 0) { 
+        console.log("createBook inserting hard-wired image");
+        myImage = "https://tile.loc.gov/storage-services/service/pnp/fsa/8c13000/8c13300/8c13353v.jpg"; 
+      }
       const book = await Book.create({ bookId, title, description, authors, image: myImage, link, });
       console.log("Created book is ", book); 
  
