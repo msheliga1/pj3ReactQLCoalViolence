@@ -67,7 +67,9 @@ const NewFightForm = () => {
         //  thoughtAuthor: Auth.getProfile().data.username,
         const { data } = await createBook({variables: vars,});
         console.log("Created book. Returned data: ", data); 
-        setTitleText('Incident Title');
+        // setTitleText('Incident Title'); // Must use use_state hook for this. 
+        setUserFormData({ title: 'New Incident Successfully Created', 
+                          coalcamp:'', state: '', description: '', image: '' }); 
       } catch (err) {
         console.error(err);
       } 
