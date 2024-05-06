@@ -11,7 +11,7 @@ import Auth from '../utils/auth';
 
 const NewFightForm = () => {
   // set initial form state
-  const [userFormData, setUserFormData] = useState({ username: '', coalcamp:'', email: '', description: '' });
+  const [userFormData, setUserFormData] = useState({ title: '', coalcamp:'', email: '', description: '' });
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
@@ -40,14 +40,14 @@ const NewFightForm = () => {
   // Method to create new record (and insert ptr to it in User.myFights)
   const handleFormSubmit = async (event) => {
     event.preventDefault(); 
-    console.log("NewFightForm.jsx handleFormSubmit saving for userID ", username); 
+    console.log("NewFightForm.jsx handleFormSubmit saving for user ", username); 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {  return false;    }
     try {
         console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
         // Create the book to save by copying form data to vars 
-        const title = userFormData.username; 
+        const title = userFormData.title; 
         const bookId = "7449292";
         const description = userFormData.description; 
         const authors = [ "Author1" ]; 
@@ -78,16 +78,16 @@ const NewFightForm = () => {
         </Alert>
 
         <Form.Group className='mb-3'>
-          <Form.Label htmlFor='username'>Username</Form.Label>
+          <Form.Label htmlFor='username'>Title</Form.Label>
           <Form.Control
             type='text'
             placeholder='Incident Title'
-            name='username'
+            name='title'
             onChange={handleInputChange}
-            value={userFormData.username}
+            value={userFormData.title}
             required
           />
-          <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>Title is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3'>
@@ -113,7 +113,7 @@ const NewFightForm = () => {
             value={userFormData.email}
             required
           />
-          <Form.Control.Feedback type='invalid'>State is required!</Form.Control.Feedback>
+          s<Form.Control.Feedback type='invalid'>State is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='mb-3'>
@@ -129,7 +129,7 @@ const NewFightForm = () => {
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.username && userFormData.email && userFormData.description)}
+          disabled={!(userFormData.title && userFormData.email && userFormData.description)}
           type='submit'
           variant='success'>
           Submit
