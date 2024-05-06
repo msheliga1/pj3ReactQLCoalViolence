@@ -49,7 +49,7 @@ const NewFightForm = () => {
         // Create the book to save by copying form data to vars 
         const title = userFormData.username; 
         const bookId = "7449292";
-        const description = "Book One Desc"; 
+        const description = userFormData.password; 
         const authors = [ "Author1" ]; 
         const image = null; 
         const link = null;
@@ -106,8 +106,8 @@ const NewFightForm = () => {
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='password'>Password</Form.Label>
           <Form.Control
-            type='password'
-            placeholder='Your password'
+            type='textArea'
+            placeholder='Your Story'
             name='password'
             onChange={handleInputChange}
             value={userFormData.password}
