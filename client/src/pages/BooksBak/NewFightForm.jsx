@@ -6,7 +6,6 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import { ADD_USER2 } from '../utils/mutations';  // correct name 4.23.24
 import { GET_ME } from '../utils/queries';
-import { CREATE_FIGHT } from '../utils/mutations';
 import { CREATE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 
@@ -31,7 +30,7 @@ const NewFightForm = () => {
   // const [createBook, { error }] = useMutation(CREATE_BOOK); // must be outside handleForm promise
   // const [addThought, { error }] = useMutation(ADD_THOUGHT, 
   //   {refetchQueries: [QUERY_THOUGHTS, 'getThoughts', QUERY_ME, 'me']});
-  const [createFight, { error }] = useMutation(CREATE_FIGHT, 
+  const [createBook, { error }] = useMutation(CREATE_BOOK, 
     {refetchQueries: [GET_ME, 'me']});
 
   const handleInputChange = (event) => {
@@ -47,7 +46,7 @@ const NewFightForm = () => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     if (!token) {  return false;    }
     try {
-        console.log("NewFight.jsx handleFormSubmit got token ... creating book using token ", token); 
+        console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
         // Create the book to save by copying form data to vars 
         const title = userFormData.title; 
         const bookId = userFormData.coalcamp;
@@ -66,7 +65,7 @@ const NewFightForm = () => {
         console.log("NewFight.jsx handleCreateBook creating book using ", vars); 
         //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
         //  thoughtAuthor: Auth.getProfile().data.username,
-        const { data } = await createFight({variables: vars,});
+        const { data } = await createBook({variables: vars,});
         console.log("Created book. Returned data: ", data); 
         // setTitleText('Incident Title'); // Must use use_state hook for this. 
         setUserFormData({ title: 'New Incident Successfully Created', 
