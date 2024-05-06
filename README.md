@@ -143,6 +143,13 @@ Attempt to get code running (index.html page display in this case.)
         Goal - Get input form (NewFightForm) working . 
             - Works. title, coalcamp, state, image and description. 
             - Also inserts default photo if none entered. 
+        Goal - change names.
+            - Book -> Fight in file names and exports. Worked.
+            - book -> Fight in other places. Works. 
+            - bookId -> coalCamp (model, typeDefs, resolvers, queries, mutations, .jsx pages.). 
+                - Easier to add new coalCamp field than switch all over at once. 
+        Bug: - Dreaded token format bad. Very likely a cache issue. 
+            Possibly from visiting Render site while working on project. 
         Goal: Search shows favorited and myFights 
         
 

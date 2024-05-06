@@ -21,7 +21,7 @@ const AppNavbar = () => {
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            Google Books Search
+            Historical Coal Camp Violence Site 
           </Navbar.Brand>)
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
@@ -39,9 +39,6 @@ const AppNavbar = () => {
                   </Nav.Link>
                   <Nav.Link as={Link} to='/myFights'>
                     Your Incidents
-                  </Nav.Link>
-                  <Nav.Link as={Link} to='/newFight'>
-                    Create New Incident (Via Search)
                   </Nav.Link>
                   <Nav.Link as={Link} to='/newFightForm'>
                     New Incident Form
