@@ -16,6 +16,14 @@ const NewFightForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+
+  const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
+  console.log("NewFight GET_ME returned data ", data);   
+  if (!data || !data.me || !data.me.username) {
+    console.log("SearchBooks GET_ME result missing data.me.username ... can't save."); 
+    return; 
+  }
+  const username = data.me.username; 
   // "Convert" ADD_USER2 mutation to addUser method
   // const [addUser, { error, data }] = useMutation(ADD_USER2);
   // const [createBook, { error }] = useMutation(CREATE_BOOK); // must be outside handleForm promise
@@ -28,12 +36,10 @@ const NewFightForm = () => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   }; 
-  // const username = "s8"; 
 
   // Method to create new record (and insert ptr to it in User.myFights)
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    const username = "s9"; 
+    event.preventDefault(); 
     console.log("NewFightForm.jsx handleFormSubmit saving for userID ", username); 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -41,7 +47,7 @@ const NewFightForm = () => {
     try {
         console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
         // Create the book to save by copying form data to vars 
-        const title = "Book1 NewFightForm"; 
+        const title = "Book3 GET_ME username NewFightForm"; 
         const bookId = "7449292";
         const description = "Book One Desc"; 
         const authors = [ "Author1" ]; 

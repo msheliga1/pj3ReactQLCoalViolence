@@ -38,7 +38,6 @@ const NewFightForm = ( ) => {
   // Sample from SingleThough26 
   // const { loading, data } = useQuery(QUERY_SINGLE_THOUGHT, { variables: { thoughtId: thoughtId }, });
   // Added next line for GraphQL. Basically find out who is logged in. // must be outside handleForm promise
-  // God only knows why this works with "data" but not "dataMe". 
   const { loading, data } = useQuery(GET_ME, { variables: {  }, });  
   console.log("NewFight GET_ME returned data ", data); 
 
