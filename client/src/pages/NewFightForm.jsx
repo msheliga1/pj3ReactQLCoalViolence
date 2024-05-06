@@ -104,9 +104,9 @@ const NewFightForm = () => {
         </Form.Group>
 
         <Form.Group className='mb-3'>
-          <Form.Label htmlFor='password'>Password</Form.Label>
+          <Form.Label htmlFor='password'>Description Text Area</Form.Label>
           <Form.Control
-            type='textArea'
+            as="textarea" rows={15}
             placeholder='Your Story'
             name='password'
             onChange={handleInputChange}
