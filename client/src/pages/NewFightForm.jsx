@@ -93,8 +93,9 @@ const NewFightForm = () => {
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
-            type='email'
-            placeholder='Your email address'
+            type='text'
+            maxlength='2'
+            placeholder='Your state abbreviation'
             name='email'
             onChange={handleInputChange}
             value={userFormData.email}
