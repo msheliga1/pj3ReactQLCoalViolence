@@ -11,7 +11,7 @@ import Auth from '../utils/auth';
 
 const NewFightForm = () => {
   // set initial form state
-  const [userFormData, setUserFormData] = useState({ title: '', coalcamp:'', email: '', description: '' });
+  const [userFormData, setUserFormData] = useState({ title: '', coalcamp:'', state: '', description: '' });
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
@@ -48,7 +48,7 @@ const NewFightForm = () => {
         console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
         // Create the book to save by copying form data to vars 
         const title = userFormData.title; 
-        const bookId = "7449292";
+        const bookId = userFormData.coalcamp;
         const description = userFormData.description; 
         const authors = [ "Author1" ]; 
         const image = null; 
@@ -103,14 +103,14 @@ const NewFightForm = () => {
         <Form.Control.Feedback type='invalid'>State is required!</Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3'>
-          <Form.Label htmlFor='email'>Email</Form.Label>
+          <Form.Label htmlFor='state'>State Abbreviation</Form.Label>
           <Form.Control
             type='text'
             maxlength='2'
-            placeholder='Your state abbreviation'
-            name='email'
+            placeholder='State or province 2 character abbreviation'
+            name='state'
             onChange={handleInputChange}
-            value={userFormData.email}
+            value={userFormData.state}
             required
           />
           s<Form.Control.Feedback type='invalid'>State is required!</Form.Control.Feedback>
@@ -129,7 +129,7 @@ const NewFightForm = () => {
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
         <Button
-          disabled={!(userFormData.title && userFormData.email && userFormData.description)}
+          disabled={!(userFormData.title && userFormData.state && userFormData.description)}
           type='submit'
           variant='success'>
           Submit
