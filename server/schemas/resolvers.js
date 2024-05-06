@@ -133,8 +133,9 @@ const resolvers = {
     createBook: async (parent, { username, bookId, title, description, authors, image, link, }) => {
       console.log("createBook resolver (required): ", username, bookId, title);
       console.log("createBook resolver (desc, auth, img, lnk): ", description, authors, image, link); 
- 
-      const book = await Book.create({ bookId, title, description, authors, image, link, });
+      let myImage = image;
+      if (!myImage) { myImage = "https://www.hmdb.org/Photos4/440/Photo440968.jpg"; }
+      const book = await Book.create({ bookId, title, description, authors, image: myImage, link, });
       console.log("Created book is ", book); 
  
       // Andrew:  User needs list of Books IDs.  Saving entire book is extra-storage issue. 

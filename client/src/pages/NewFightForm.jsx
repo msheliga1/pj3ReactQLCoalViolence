@@ -51,7 +51,9 @@ const NewFightForm = () => {
         const bookId = userFormData.coalcamp;
         const description = userFormData.description; 
         const authors = [ "Author1" ];  
-        const image = null; 
+        const image = null; // "https://www.hmdb.org/Photos4/440/Photo440968.jpg";  Works
+        // "http://books.google.com/books/content
+        // ?id=VSZ4BgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api
         const link = null;
         const comments = []; 
         const bookToSave = { title, bookId, authors, description, image, link, comments }; 
