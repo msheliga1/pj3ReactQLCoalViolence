@@ -22,11 +22,11 @@ const NewFightForm = ( ) => {
   const [searchInput, setSearchInput] = useState('');
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-  // Added next line for GraphQL. Basically convert SAVE_BOOK graphQL into saveBook method. 
-  const saveBookArray = useMutation(SAVE_BOOK); // must be outside handleForm promise
-  const saveBook = saveBookArray[0];
-  const errorBook = saveBookArray[1]; 
-  const [createBook, { error }] = useMutation(CREATE_BOOK); // must be outside handleForm promise
+  // const [createBook, { error }] = useMutation(CREATE_BOOK); // must be outside handleForm promise
+  // const [addThought, { error }] = useMutation(ADD_THOUGHT, 
+  //   {refetchQueries: [QUERY_THOUGHTS, 'getThoughts', QUERY_ME, 'me']});
+  const [createBook, { error }] = useMutation(CREATE_BOOK, 
+        {refetchQueries: [GET_ME, 'me']});
 
   // Sample from SingleThough26 
   // const { loading, data } = useQuery(QUERY_SINGLE_THOUGHT, { variables: { thoughtId: thoughtId }, });
@@ -36,24 +36,18 @@ const NewFightForm = ( ) => {
   console.log("NewFight GET_ME returned data ", data); 
 
   let good = false; 
-  if (data) {
-    if (data.me) {
-      if (data.me.username) {
+  if (!!data && data.me && data.me.username) {
         console.log("SearchBooks GET_ME result contains data.me.username"); 
         good = true;
       }
-    }
-  }
-
   let username = "MJS"; 
   if (good) {
     username = data.me.username;
   } else {
-    console.log("Search Books query GET_USER returned no data: ", data); 
+    console.log("NewFightForm query GET_USER returned no data: ", data); 
     console.log("Setting username to MJS"); 
   } 
-
-  console.log("NewFight GET_ME returned username ", username);  // works with data
+  console.log("NewFightForm GET_ME returned username ", username);  // works with data
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -61,32 +55,38 @@ const NewFightForm = ( ) => {
     return () => saveBookIds(savedBookIds);
   });  // end useEffect
 
-  // create method to search for books and set state on form submit
+  // create method to create new record (and insert ptr to it in User.myFights)
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (!searchInput) {
-      return false;
-    }
+    console.log("NewFightForm.jsx handleFormSubmit saving for userID ", username); 
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    if (!token) {  return false;    }
     try {
-      const response = await searchGoogleBooks(searchInput);
-      if (!response.ok) {
-        throw new Error('Something went wrong searching for a book. ' + searchInput);
+        console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
+        // Create the book to save by copying form data to vars 
+        const title = "Book One"; 
+        const bookId = "7449292";
+        const description = "Book One Desc"; 
+        const authors = [ "Author1" ]; 
+        const image = null; 
+        const link = null;
+        const comments = []; 
+        const bookToSave = { title, bookId, authors, description, image, link, comments }; 
+        console.log("NewFightForm.jsx handleFormSubmit title ", bookToSave.title, " gBookId ", bookToSave.bookId); 
+        const vars = { username: username, ...bookToSave}; 
+        console.log("NewFight.jsx handleCreateBook creating book using ", vars); 
+        //  const { data } = await login({variables: { ...formState },}); // Analagous line from LoginForm.jsx 
+        //  thoughtAuthor: Auth.getProfile().data.username,
+        const { data } = await createBook({variables: vars,});
+        console.log("Created book. Returned data: ", data); 
+        // if book successfully saves to user's account, save book id (only) to state
+        setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+        // setThoughtText('');
+      } catch (err) {
+        console.error(err);
       }
-      const { items } = await response.json();
-      const bookData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
-      }));
-      setSearchedBooks(bookData);
-      setSearchInput('');
-    } catch (err) {
-      console.error(err);
-    } // end try-catch 
   };  // end handleFormSubmit 
-
 
   // create function to handle creating a book to our database. Also create ptr in User
   const handleCreateBook = async (bookId) => {
