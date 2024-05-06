@@ -50,7 +50,7 @@ const NewFightForm = () => {
         const title = userFormData.title; 
         const bookId = userFormData.coalcamp;
         const description = userFormData.description; 
-        const authors = [ "Author1" ]; 
+        const authors = [ "Author1" ];  
         const image = null; 
         const link = null;
         const comments = []; 
