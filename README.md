@@ -141,6 +141,8 @@ Attempt to get code running (index.html page display in this case.)
         Goal: Remove Item from favorite array. 
             - Works
         Goal - Get input form (NewFightForm) working . 
+            - Works. title, coalcamp, state, image and description. 
+            - Also inserts default photo if none entered. 
         Goal: Search shows favorited and myFights 
         
 
