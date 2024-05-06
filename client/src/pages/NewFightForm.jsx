@@ -47,7 +47,7 @@ const NewFightForm = () => {
     try {
         console.log("NewFight.jsx handleCreateBook got token ... creating book using token ", token); 
         // Create the book to save by copying form data to vars 
-        const title = "Book3 GET_ME username NewFightForm"; 
+        const title = userFormData.username; 
         const bookId = "7449292";
         const description = "Book One Desc"; 
         const authors = [ "Author1" ]; 
@@ -81,7 +81,7 @@ const NewFightForm = () => {
           <Form.Label htmlFor='username'>Username</Form.Label>
           <Form.Control
             type='text'
-            placeholder='MJS Your username'
+            placeholder='Incident Title'
             name='username'
             onChange={handleInputChange}
             value={userFormData.username}
