@@ -2,7 +2,7 @@
 // Example of user that can have many books. 
 // Note use of Authenticotor error in utils/auth, which replaces 
 // REST authMiddleware method. 
-const { User, Book, Fight } = require('../models');
+const { User, Book } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 const { ObjectId } = require('mongodb'); // per stack ovdrflow
 
@@ -46,9 +46,6 @@ const resolvers = {
     users: async () => {   // used for testing.  
         return User.find().populate('favorites').populate('myFights'); 
     }, 
-    fights: async () => {   // used for testing.  
-      return Fight.find(); 
-    }, 
     books: async () => {   // used for testing.  
       return Book.find(); 
     }, 
@@ -60,9 +57,6 @@ const resolvers = {
     },
     user: async (parent, { username }) => {
       return User.findOne({ username });
-    },
-    fight: async (parent, { fightId }) => {
-      return Fight.findOne({ _id: fightId });
     },
     book: async (parent, { bookId }) => {
       return Book.findOne({ _id: bookId });
@@ -135,31 +129,7 @@ const resolvers = {
       return user; 
     },  // end saveBook  
 
-    // create fight. Username passed in for GQL testing.
-    createFight: async (parent, { username, bookId, title, description, authors, image, link, }) => {
-      console.log("createFight resolver (required): ", username, bookId, title);
-      console.log("createFight resolver (desc, auth, img, lnk): ", description, authors, image, link); 
-      let myImage = image;
-      if (!myImage || myImage.length === 0) { 
-        console.log("createFight inserting hard-wired image");
-        myImage = "https://tile.loc.gov/storage-services/service/pnp/fsa/8c13000/8c13300/8c13353v.jpg"; 
-      }
-      const book = await Fight.create({ bookId, title, description, authors, image: myImage, link, });
-      console.log("Created fogjt is ", book); 
- 
-      // Andrew:  User needs list of Books IDs.  Saving entire book is extra-storage issue. 
-      // With set of book Ids, then .populate should work. 
-      // { $addToSet: { favorites: book._id } }.  Having 2 in findOneAndUpdate wont work
-      const user = await User.findOneAndUpdate(
-        { username: username }, 
-        { $addToSet: { myFights: book._id, favorites: book._id } }, 
-        { new: true, runValidators: true, } 
-      );
-      console.log("createFigth: Found one and updated user ... ", user); 
-      return book; 
-    }, // end createFight
-
-    // createBook mimics addBook which used Book(Thought).create. Username passed in for GQL testing.
+    // saveBookCreate mimics addBook which used Book(Thought).create. Username passed in for GQL testing.
     createBook: async (parent, { username, bookId, title, description, authors, image, link, }) => {
       console.log("createBook resolver (required): ", username, bookId, title);
       console.log("createBook resolver (desc, auth, img, lnk): ", description, authors, image, link); 
@@ -181,8 +151,7 @@ const resolvers = {
       );
       console.log("createBook: Found one and updated user ... ", user); 
       return book; 
-    }, // end createBook
-
+    }, // end addBookCreate
     // addThought uses Thought.create and context to get username
     /* addThought: async (parent, { thoughtText }, context) => {
       if (context.user) {
@@ -277,10 +246,12 @@ const resolvers = {
       return book;
     }, // end addBookOld via addThought
     /* 
-    removeBookOld: ... Book.findOneAndDelete({ _id: bookId }); */
+    removeBookOld: async (parent, { bookId }) => {
+      return Book.findOneAndDelete({ _id: bookId });
+    }, // end removeBookOld via fk for Thougth  */
     // ---------------------------------------------------
     addComment: async (parent, { bookId, commentText, commentAuthor }) => {
-      return Fight.findOneAndUpdate(
+      return Book.findOneAndUpdate(
         { _id: bookId },
         {
           $addToSet: { comments: { commentText, commentAuthor } },
@@ -292,7 +263,7 @@ const resolvers = {
       );
     },  // end AddComment
     removeComment: async (parent, { bookId, commentId }) => {
-      return Fight.findOneAndUpdate(
+      return Book.findOneAndUpdate(
         { _id: bookId },
         { $pull: { comments: { _id: commentId } } },
         { new: true }
