@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
 import SearchBooks from './pages/SearchBooks'
+import Homepage from './pages/Homepage'
 import Favorites from './pages/Favorites'
 import MyFights from './pages/MyFights'
 import NewFight from './pages/NewFight'
@@ -18,8 +19,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Homepage />
+      },
+      {
+        path: '/search',
         element: <SearchBooks />
-      }, {
+      },
+      {
         path: '/favorites',
         element: <Favorites />
       }, {

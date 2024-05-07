@@ -17,16 +17,47 @@ const Favorites = () => {
   const [userData, setUserData] = useState({});  // here is the user localStorage variable
 
   const [unfavor, { error }] = useMutation(UNFAVOR);             // must be outside handleXXX method
-  // const justMe = useQuery(GET_ME, { variables: {  }, });  // justMe has loading and data fields
   const { loading, data } = useQuery(GET_ME_ALL, { variables: { }, });  
+
+  console.log("Favorites GET_ME_ALL returned data ", data); 
+  if (!data) { 
+    console.log("Favorites userQuery(GET_ME_ALL) no data: ", data); 
+    return <h1>Favorites GET_ME_ALL Found No data</h1>; 
+  }
+  if (!data.me) { 
+    console.log("Favorites userQuery(GET_ME_ALL) no data.me: ", data.me); 
+    return <h1>Favorites GET_ME_ALL found No data.me</h1>; 
+  }
+  if (!data.me.username) { 
+    console.log("Favorites userQuery(GET_ME_ALL) no data.me.username: ", data.me.username); 
+    return <h1>No username</h1>; 
+  }
+  const userMe = data.me; 
+  // userMe = { ...userMe, favorites:[]} ;  // for testing when GET_ME didnt have favorites
+  console.log("Saved books. user from GET_ME_ALL data.me: ", userMe); 
+  console.log("Saved books. user from GET_ME_ALL data.me.username: ", userMe.username); 
+  console.log("Saved books. user from GET_ME_ALL data.me.favorites.length: ", userMe.favorites.length); 
+
+  // This occassionally gives "More hooks than previous render (even after rebuild and server restart)
+  // But the seems work sometimes. MJS 4.25.24
+  // Problem seems to occur after logging out and logging back in.  
+  const justMe = useQuery(GET_ME, { variables: {  }, });  // justMe has loading and data fields
+  console.log("Favorites GET_ME returned ", justMe); 
+  const data3 = justMe.data; 
+  console.log("Favorites GET_ME returned data ", data3); 
+  const us3 = data3.me; 
+  console.log("Favorites GET_ME returned data.me ", us3); 
+
+  // This seems to work. MJS 4.25.24 
+  /* const getMeAll = useQuery(GET_ME_ALL, { variables: { }, });  
+  console.log("Favorites getMeAll = useQuery(...) is ", getMeAll); 
+  const loading2 = getMeAll.loading;
+  const data2 = getMeAll.data;   
+  console.log("Favorites getMeAll data  ", data2);  */ 
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
 
-  // When placed after below error checks, this occassionally gave "More hooks than previous render (even after rebuild and server restart)
-  // But the seems work sometimes. MJS 4.25.24
-  // Problem seems to occur after logging out and logging back in.  
-  // Solution: Never place a useQuery or useMution below a return!! 
   useEffect(() => {
     const getUserData = async () => {
       console.log("Staring Favorites - getUserData..."); 
@@ -43,8 +74,7 @@ const Favorites = () => {
         /* const response = await getMe(token);
         if (!response.ok) { throw new Error('something went wrong!');  }
         const user = await response.json(); */ 
-        // was setUserData(userMe)
-        setUserData(data.me);
+        setUserData(userMe);
       } catch (err) {
         console.log("Favorites getUserData error: ", err); 
         console.error(err);
@@ -53,41 +83,6 @@ const Favorites = () => {
     getUserData();
     // next line means run method when userDataLength changes, as well as page load
   }, [userDataLength]);  // end useEffect
-
-  console.log("Favorites GET_ME_ALL returned data ", data); 
-  if (!data) { 
-    console.log("Favorites userQuery(GET_ME_ALL) no data: ", data); 
-    return false; 
-  }
-  if (!data.me) { 
-    if (!userDataLength) {
-      return <h2>LOADING GET_ME_ALL data...</h2>;
-    }
-    console.log("Favorites userQuery(GET_ME_ALL) no data.me: ", data.me); 
-    return <h3>NO GET_ME_ALL data.me </h3>; 
-  }
-  if (!data.me.username) { 
-    console.log("Favorites userQuery(GET_ME_ALL) no data.me.username: ", data.me.username); 
-    return false; 
-  }
-  const userMe = data.me; 
-  // userMe = { ...userMe, favorites:[]} ;  // for testing when GET_ME didnt have favorites
-  console.log("Saved books. user from GET_ME_ALL data.me: ", userMe); 
-  console.log("Saved books. user from GET_ME_ALL data.me.username: ", userMe.username); 
-  console.log("Saved books. user from GET_ME_ALL data.me.favorites.length: ", userMe.favorites.length); 
-
-  /* console.log("Favorites GET_ME returned ", justMe); 
-  const data3 = justMe.data; 
-  console.log("Favorites GET_ME returned data ", data3); 
-  const us3 = data3.me; 
-  console.log("Favorites GET_ME returned data.me ", us3); */ 
-
-  // This seems to work. MJS 4.25.24 
-  /* const getMeAll = useQuery(GET_ME_ALL, { variables: { }, });  
-  console.log("Favorites getMeAll = useQuery(...) is ", getMeAll); 
-  const loading2 = getMeAll.loading;
-  const data2 = getMeAll.data;   
-  console.log("Favorites getMeAll data  ", data2);  */ 
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleUnfavor = async (_id) => {

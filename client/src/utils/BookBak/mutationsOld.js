@@ -80,22 +80,25 @@ mutation saveBook($username: String!, $bookId: String!, $title: String!, $author
 }
 `;
 
+export const CREATE_FIGHT = gql`
+mutation createFight($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
+  createFight(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
+    bookId
+    title
+    description
+    authors
+    image
+    link
+  }
+}
+`;
+
 // create book. Also create reference from user to book.  This only returns a book, not the user, 
 // so no email or username permitted in results.  If you stick email or username in results get a 400 not-found err 
 // when calling this routine. 
 export const CREATE_BOOK = gql`
 mutation CreateBook($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
   createBook(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
-    _id
-    bookId
-    title
-  }
-}
-`;
-
-export const CREATE_FIGHT = gql`
-mutation CreateFight($username: String!, $bookId: String!, $title: String!, $authors: [String]!, $description: String, $image: String, $link: String) {
-  createFight(username: $username, bookId: $bookId, title: $title, authors: $authors, description: $description, image: $image, link: $link) {
     _id
     bookId
     title

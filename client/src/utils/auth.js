@@ -5,7 +5,15 @@ import decode from 'jwt-decode';
 class AuthService {
   // get user data
   getProfile() {
-    return decode(this.getToken());
+    console.log("auth.js client getProfile starting"); 
+    const mytoken = this.getToken();
+    console.log("auth.js client getProfile this.getToken: ", mytoken ); 
+    // Seems like this next line is WRONG.  Check if myToken is null. If so return null.  
+    // Almost sure decode(null) caused bad bad error about not token type. 
+    const result = decode(this.getToken()); 
+    console.log("auth.js client getProfile decode(token): ", result ); 
+    return result; 
+    // return decode(this.getToken());
   }
 
   // check if user's logged in
@@ -28,13 +36,16 @@ class AuthService {
   }
 
   getToken() {
-    // Retrieves the user token from localStorage. Not the most secure. 
-    return localStorage.getItem('id_token');
+    // Retrieves the user token from localStorage. Returns null if not exist. Not the most secure. 
+    console.log("auth.js client getToken starting"); 
+    const localToken = localStorage.getItem('id_token');
+    console.log("auth.js client getToken localStorage.getItem(token): ", localToken);    
+    return localToken;
   }
 
   login(idToken) {
     // Saves user token to localStorage
-    console.log("auth.js login(idToken) starting ... "); 
+    console.log("auth.js client login(idToken) starting ... "); 
     localStorage.setItem('id_token', idToken);
     window.location.assign('/');  
   }

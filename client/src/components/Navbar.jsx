@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
@@ -9,12 +9,20 @@ import Auth from '../utils/auth';
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
-  const prof = Auth.getProfile(); 
-  let username = "";
-  if (!!prof && prof.data && prof.data.username) { 
-    username = prof.data.username;   
-    console.log("Navbar profile.data.username: ", username);   
-  }
+  const [username, setUsername] = useState(""); 
+ 
+  useEffect(() => {  
+    console.log("Navbar loggedIn: ", Auth.loggedIn())
+    if (!Auth.loggedIn()) return;  
+    const prof = Auth.getProfile(); 
+    // let username = "";
+    if (!prof) {
+      return; 
+      // username = prof.data.username;   
+      // console.log("Navbar profile.data.username: ", username);   
+    } 
+    setUsername(prof.data.username); 
+  }, [])
 
   return (
     <>
@@ -22,7 +30,7 @@ const AppNavbar = () => {
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
             Historical Coal Camp Violence Site 
-          </Navbar.Brand>)
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
