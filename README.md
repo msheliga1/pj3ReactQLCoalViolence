@@ -6,8 +6,8 @@ Also used Act 28 MP (beware very poor code) and Act 24.
 
 ## Link to Repo, Deployment(s) Screenshot(s) and/or Video(s)    
 Link to GitHub Repo: https://github.com/msheliga1/pj3ReactQLCoalViolence 
-Link to Render-Atlas Deployment: https://pj3reactqlcoalviolence.onrender.com
-XX//hw21urigraphqlbooks-1.onrender.com/  
+Link to Render-Atlas Deployment: https://pj3reactqlcoalviolence.onrender.com 
+Link to Project Presentation: https://docs.google.com/document/d/1ILvzF4Z2GF6ZbmQDG8Kqrx5VKzqoKnbJq3eyvfoO4Ss/edit#heading=h.z6ne0og04bp5  
 (Need MongoDB Atlas site which is also some type of hosting site.)  
 Link to Render-Atlas Deployment Help: https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas   
 <!-- Link to Heroku Deployment:  https://git.heroku.com/arcane-garden-86951.git   -->  
@@ -151,6 +151,7 @@ Attempt to get code running (index.html page display in this case.)
         Bug: - Dreaded token format bad. Very likely a cache issue. 
             Possibly from visiting Render site while working on project. 
         Goal: Search shows favorited and myFights 
+            - Works 
         
 
 CLIENT    
